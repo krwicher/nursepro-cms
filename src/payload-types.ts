@@ -69,6 +69,11 @@ export interface Config {
   collections: {
     users: User;
     media: Media;
+    procedures: Procedure;
+    'legal-posts': LegalPost;
+    quizzes: Quiz;
+    categories: Category;
+    theories: Theory;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
@@ -77,12 +82,17 @@ export interface Config {
   collectionsSelect: {
     users: UsersSelect<false> | UsersSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
+    procedures: ProceduresSelect<false> | ProceduresSelect<true>;
+    'legal-posts': LegalPostsSelect<false> | LegalPostsSelect<true>;
+    quizzes: QuizzesSelect<false> | QuizzesSelect<true>;
+    categories: CategoriesSelect<false> | CategoriesSelect<true>;
+    theories: TheoriesSelect<false> | TheoriesSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
     'payload-migrations': PayloadMigrationsSelect<false> | PayloadMigrationsSelect<true>;
   };
   db: {
-    defaultIDType: string;
+    defaultIDType: number;
   };
   globals: {};
   globalsSelect: {};
@@ -118,7 +128,7 @@ export interface UserAuthOperations {
  * via the `definition` "users".
  */
 export interface User {
-  id: string;
+  id: number;
   updatedAt: string;
   createdAt: string;
   email: string;
@@ -142,7 +152,7 @@ export interface User {
  * via the `definition` "media".
  */
 export interface Media {
-  id: string;
+  id: number;
   alt: string;
   updatedAt: string;
   createdAt: string;
@@ -158,23 +168,472 @@ export interface Media {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "procedures".
+ */
+export interface Procedure {
+  id: number;
+  title: string;
+  slug?: string | null;
+  content: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  };
+  published?: boolean | null;
+  category?: (number | null) | Category;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "categories".
+ */
+export interface Category {
+  id: number;
+  name: string;
+  slug?: string | null;
+  image?: (number | null) | Media;
+  parent?: {
+    relationTo: 'categories';
+    value: number | Category;
+  } | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "legal-posts".
+ */
+export interface LegalPost {
+  id: number;
+  title: string;
+  slug?: string | null;
+  subtitle?: string | null;
+  estimation?: string | null;
+  zajawka?: string | null;
+  zdjecie?: (number | null) | Media;
+  content: (
+    | {
+        text: {
+          root: {
+            type: string;
+            children: {
+              type: any;
+              version: number;
+              [k: string]: unknown;
+            }[];
+            direction: ('ltr' | 'rtl') | null;
+            format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+            indent: number;
+            version: number;
+          };
+          [k: string]: unknown;
+        };
+        zdjecie: string;
+        id?: string | null;
+        blockName?: string | null;
+        blockType: 'tekst';
+      }
+    | {
+        title: string;
+        font?: boolean | null;
+        content: string;
+        id?: string | null;
+        blockName?: string | null;
+        blockType: 'Header';
+      }
+    | {
+        post: number | Category;
+        id?: string | null;
+        blockName?: string | null;
+        blockType: 'AddToFavorites';
+      }
+    | {
+        title: string;
+        attachments?:
+          | {
+              fileName: string;
+              file?: (number | null) | Media;
+              id?: string | null;
+            }[]
+          | null;
+        id?: string | null;
+        blockName?: string | null;
+        blockType: 'Attachments';
+      }
+    | {
+        images?:
+          | {
+              image?: (number | null) | Media;
+              id?: string | null;
+            }[]
+          | null;
+        id?: string | null;
+        blockName?: string | null;
+        blockType: 'ImagesSlider';
+      }
+    | {
+        post: number | Quiz;
+        id?: string | null;
+        blockName?: string | null;
+        blockType: 'QuizEncouragment';
+      }
+    | {
+        title: string;
+        references?:
+          | {
+              reference?: string | null;
+              id?: string | null;
+            }[]
+          | null;
+        id?: string | null;
+        blockName?: string | null;
+        blockType: 'References';
+      }
+    | {
+        title?: string | null;
+        realtedPosts?:
+          | {
+              procedure?: (number | null) | Procedure;
+              id?: string | null;
+            }[]
+          | null;
+        id?: string | null;
+        blockName?: string | null;
+        blockType: 'RelatedPosts';
+      }
+    | {
+        tabs: {
+          title: string;
+          content: (
+            | {
+                title: string;
+                font?: boolean | null;
+                content: string;
+                id?: string | null;
+                blockName?: string | null;
+                blockType: 'Header';
+              }
+            | {
+                title: string;
+                attachments?:
+                  | {
+                      fileName: string;
+                      file?: (number | null) | Media;
+                      id?: string | null;
+                    }[]
+                  | null;
+                id?: string | null;
+                blockName?: string | null;
+                blockType: 'Attachments';
+              }
+            | {
+                images?:
+                  | {
+                      image?: (number | null) | Media;
+                      id?: string | null;
+                    }[]
+                  | null;
+                id?: string | null;
+                blockName?: string | null;
+                blockType: 'ImagesSlider';
+              }
+            | {
+                title?: string | null;
+                content: {
+                  root: {
+                    type: string;
+                    children: {
+                      type: any;
+                      version: number;
+                      [k: string]: unknown;
+                    }[];
+                    direction: ('ltr' | 'rtl') | null;
+                    format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+                    indent: number;
+                    version: number;
+                  };
+                  [k: string]: unknown;
+                };
+                highlighted?: boolean | null;
+                title2?: string | null;
+                content2: {
+                  root: {
+                    type: string;
+                    children: {
+                      type: any;
+                      version: number;
+                      [k: string]: unknown;
+                    }[];
+                    direction: ('ltr' | 'rtl') | null;
+                    format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+                    indent: number;
+                    version: number;
+                  };
+                  [k: string]: unknown;
+                };
+                highlighted2?: boolean | null;
+                id?: string | null;
+                blockName?: string | null;
+                blockType: 'TwoColumnsWithTtitles';
+              }
+          )[];
+          id?: string | null;
+        }[];
+        id?: string | null;
+        blockName?: string | null;
+        blockType: 'Tabs';
+      }
+    | {
+        tabs: {
+          title: string;
+          icon?: (number | null) | Media;
+          content: (
+            | {
+                title: string;
+                font?: boolean | null;
+                content: string;
+                id?: string | null;
+                blockName?: string | null;
+                blockType: 'Header';
+              }
+            | {
+                title: string;
+                attachments?:
+                  | {
+                      fileName: string;
+                      file?: (number | null) | Media;
+                      id?: string | null;
+                    }[]
+                  | null;
+                id?: string | null;
+                blockName?: string | null;
+                blockType: 'Attachments';
+              }
+            | {
+                images?:
+                  | {
+                      image?: (number | null) | Media;
+                      id?: string | null;
+                    }[]
+                  | null;
+                id?: string | null;
+                blockName?: string | null;
+                blockType: 'ImagesSlider';
+              }
+            | {
+                title?: string | null;
+                content: {
+                  root: {
+                    type: string;
+                    children: {
+                      type: any;
+                      version: number;
+                      [k: string]: unknown;
+                    }[];
+                    direction: ('ltr' | 'rtl') | null;
+                    format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+                    indent: number;
+                    version: number;
+                  };
+                  [k: string]: unknown;
+                };
+                highlighted?: boolean | null;
+                title2?: string | null;
+                content2: {
+                  root: {
+                    type: string;
+                    children: {
+                      type: any;
+                      version: number;
+                      [k: string]: unknown;
+                    }[];
+                    direction: ('ltr' | 'rtl') | null;
+                    format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+                    indent: number;
+                    version: number;
+                  };
+                  [k: string]: unknown;
+                };
+                highlighted2?: boolean | null;
+                id?: string | null;
+                blockName?: string | null;
+                blockType: 'TwoColumnsWithTtitles';
+              }
+          )[];
+          id?: string | null;
+        }[];
+        id?: string | null;
+        blockName?: string | null;
+        blockType: 'DropdownList';
+      }
+    | {
+        content: {
+          root: {
+            type: string;
+            children: {
+              type: any;
+              version: number;
+              [k: string]: unknown;
+            }[];
+            direction: ('ltr' | 'rtl') | null;
+            format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+            indent: number;
+            version: number;
+          };
+          [k: string]: unknown;
+        };
+        id?: string | null;
+        blockName?: string | null;
+        blockType: 'RichText';
+      }
+    | {
+        title?: string | null;
+        content: {
+          root: {
+            type: string;
+            children: {
+              type: any;
+              version: number;
+              [k: string]: unknown;
+            }[];
+            direction: ('ltr' | 'rtl') | null;
+            format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+            indent: number;
+            version: number;
+          };
+          [k: string]: unknown;
+        };
+        highlighted?: boolean | null;
+        title2?: string | null;
+        content2: {
+          root: {
+            type: string;
+            children: {
+              type: any;
+              version: number;
+              [k: string]: unknown;
+            }[];
+            direction: ('ltr' | 'rtl') | null;
+            format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+            indent: number;
+            version: number;
+          };
+          [k: string]: unknown;
+        };
+        highlighted2?: boolean | null;
+        id?: string | null;
+        blockName?: string | null;
+        blockType: 'TwoColumnsWithTtitles';
+      }
+  )[];
+  category?: (number | null) | Category;
+  published?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "quizzes".
+ */
+export interface Quiz {
+  id: number;
+  title: string;
+  slug?: string | null;
+  category: number | Category;
+  questions?:
+    | {
+        questionText: string;
+        answers?:
+          | {
+              answerText: string;
+              isCorrect?: boolean | null;
+              id?: string | null;
+            }[]
+          | null;
+        id?: string | null;
+      }[]
+    | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "theories".
+ */
+export interface Theory {
+  id: number;
+  title: string;
+  slug?: string | null;
+  content: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  };
+  published?: boolean | null;
+  category?: (number | null) | Category;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-locked-documents".
  */
 export interface PayloadLockedDocument {
-  id: string;
+  id: number;
   document?:
     | ({
         relationTo: 'users';
-        value: string | User;
+        value: number | User;
       } | null)
     | ({
         relationTo: 'media';
-        value: string | Media;
+        value: number | Media;
+      } | null)
+    | ({
+        relationTo: 'procedures';
+        value: number | Procedure;
+      } | null)
+    | ({
+        relationTo: 'legal-posts';
+        value: number | LegalPost;
+      } | null)
+    | ({
+        relationTo: 'quizzes';
+        value: number | Quiz;
+      } | null)
+    | ({
+        relationTo: 'categories';
+        value: number | Category;
+      } | null)
+    | ({
+        relationTo: 'theories';
+        value: number | Theory;
       } | null);
   globalSlug?: string | null;
   user: {
     relationTo: 'users';
-    value: string | User;
+    value: number | User;
   };
   updatedAt: string;
   createdAt: string;
@@ -184,10 +643,10 @@ export interface PayloadLockedDocument {
  * via the `definition` "payload-preferences".
  */
 export interface PayloadPreference {
-  id: string;
+  id: number;
   user: {
     relationTo: 'users';
-    value: string | User;
+    value: number | User;
   };
   key?: string | null;
   value?:
@@ -207,7 +666,7 @@ export interface PayloadPreference {
  * via the `definition` "payload-migrations".
  */
 export interface PayloadMigration {
-  id: string;
+  id: number;
   name?: string | null;
   batch?: number | null;
   updatedAt: string;
@@ -252,6 +711,317 @@ export interface MediaSelect<T extends boolean = true> {
   height?: T;
   focalX?: T;
   focalY?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "procedures_select".
+ */
+export interface ProceduresSelect<T extends boolean = true> {
+  title?: T;
+  slug?: T;
+  content?: T;
+  published?: T;
+  category?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "legal-posts_select".
+ */
+export interface LegalPostsSelect<T extends boolean = true> {
+  title?: T;
+  slug?: T;
+  subtitle?: T;
+  estimation?: T;
+  zajawka?: T;
+  zdjecie?: T;
+  content?:
+    | T
+    | {
+        tekst?:
+          | T
+          | {
+              text?: T;
+              zdjecie?: T;
+              id?: T;
+              blockName?: T;
+            };
+        Header?:
+          | T
+          | {
+              title?: T;
+              font?: T;
+              content?: T;
+              id?: T;
+              blockName?: T;
+            };
+        AddToFavorites?:
+          | T
+          | {
+              post?: T;
+              id?: T;
+              blockName?: T;
+            };
+        Attachments?:
+          | T
+          | {
+              title?: T;
+              attachments?:
+                | T
+                | {
+                    fileName?: T;
+                    file?: T;
+                    id?: T;
+                  };
+              id?: T;
+              blockName?: T;
+            };
+        ImagesSlider?:
+          | T
+          | {
+              images?:
+                | T
+                | {
+                    image?: T;
+                    id?: T;
+                  };
+              id?: T;
+              blockName?: T;
+            };
+        QuizEncouragment?:
+          | T
+          | {
+              post?: T;
+              id?: T;
+              blockName?: T;
+            };
+        References?:
+          | T
+          | {
+              title?: T;
+              references?:
+                | T
+                | {
+                    reference?: T;
+                    id?: T;
+                  };
+              id?: T;
+              blockName?: T;
+            };
+        RelatedPosts?:
+          | T
+          | {
+              title?: T;
+              realtedPosts?:
+                | T
+                | {
+                    procedure?: T;
+                    id?: T;
+                  };
+              id?: T;
+              blockName?: T;
+            };
+        Tabs?:
+          | T
+          | {
+              tabs?:
+                | T
+                | {
+                    title?: T;
+                    content?:
+                      | T
+                      | {
+                          Header?:
+                            | T
+                            | {
+                                title?: T;
+                                font?: T;
+                                content?: T;
+                                id?: T;
+                                blockName?: T;
+                              };
+                          Attachments?:
+                            | T
+                            | {
+                                title?: T;
+                                attachments?:
+                                  | T
+                                  | {
+                                      fileName?: T;
+                                      file?: T;
+                                      id?: T;
+                                    };
+                                id?: T;
+                                blockName?: T;
+                              };
+                          ImagesSlider?:
+                            | T
+                            | {
+                                images?:
+                                  | T
+                                  | {
+                                      image?: T;
+                                      id?: T;
+                                    };
+                                id?: T;
+                                blockName?: T;
+                              };
+                          TwoColumnsWithTtitles?:
+                            | T
+                            | {
+                                title?: T;
+                                content?: T;
+                                highlighted?: T;
+                                title2?: T;
+                                content2?: T;
+                                highlighted2?: T;
+                                id?: T;
+                                blockName?: T;
+                              };
+                        };
+                    id?: T;
+                  };
+              id?: T;
+              blockName?: T;
+            };
+        DropdownList?:
+          | T
+          | {
+              tabs?:
+                | T
+                | {
+                    title?: T;
+                    icon?: T;
+                    content?:
+                      | T
+                      | {
+                          Header?:
+                            | T
+                            | {
+                                title?: T;
+                                font?: T;
+                                content?: T;
+                                id?: T;
+                                blockName?: T;
+                              };
+                          Attachments?:
+                            | T
+                            | {
+                                title?: T;
+                                attachments?:
+                                  | T
+                                  | {
+                                      fileName?: T;
+                                      file?: T;
+                                      id?: T;
+                                    };
+                                id?: T;
+                                blockName?: T;
+                              };
+                          ImagesSlider?:
+                            | T
+                            | {
+                                images?:
+                                  | T
+                                  | {
+                                      image?: T;
+                                      id?: T;
+                                    };
+                                id?: T;
+                                blockName?: T;
+                              };
+                          TwoColumnsWithTtitles?:
+                            | T
+                            | {
+                                title?: T;
+                                content?: T;
+                                highlighted?: T;
+                                title2?: T;
+                                content2?: T;
+                                highlighted2?: T;
+                                id?: T;
+                                blockName?: T;
+                              };
+                        };
+                    id?: T;
+                  };
+              id?: T;
+              blockName?: T;
+            };
+        RichText?:
+          | T
+          | {
+              content?: T;
+              id?: T;
+              blockName?: T;
+            };
+        TwoColumnsWithTtitles?:
+          | T
+          | {
+              title?: T;
+              content?: T;
+              highlighted?: T;
+              title2?: T;
+              content2?: T;
+              highlighted2?: T;
+              id?: T;
+              blockName?: T;
+            };
+      };
+  category?: T;
+  published?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "quizzes_select".
+ */
+export interface QuizzesSelect<T extends boolean = true> {
+  title?: T;
+  slug?: T;
+  category?: T;
+  questions?:
+    | T
+    | {
+        questionText?: T;
+        answers?:
+          | T
+          | {
+              answerText?: T;
+              isCorrect?: T;
+              id?: T;
+            };
+        id?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "categories_select".
+ */
+export interface CategoriesSelect<T extends boolean = true> {
+  name?: T;
+  slug?: T;
+  image?: T;
+  parent?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "theories_select".
+ */
+export interface TheoriesSelect<T extends boolean = true> {
+  title?: T;
+  slug?: T;
+  content?: T;
+  published?: T;
+  category?: T;
+  updatedAt?: T;
+  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

@@ -9,18 +9,25 @@ import sharp from 'sharp'
 
 import { Users } from './collections/Users'
 import { Media } from './collections/Media'
+import Procedures from './collections/Procedures'
+import LegalPosts from './collections/LegalPosts'
+import { Quizzes } from './collections/Quizzes'
+import { Categories } from './collections/Categories'
+import Theories from './collections/Theories'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
 
 export default buildConfig({
+  serverURL: 'http://localhost:4000',
+  cors: ['http://localhost:3000'],
   admin: {
     user: Users.slug,
     importMap: {
       baseDir: path.resolve(dirname),
     },
   },
-  collections: [Users, Media],
+  collections: [Users, Media, Procedures, LegalPosts, Quizzes, Categories, Theories],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || '',
   typescript: {
