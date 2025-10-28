@@ -484,6 +484,26 @@ export interface Procedure {
         blockName?: string | null;
         blockType: 'ImageBlock';
       }
+    | {
+        content: {
+          root: {
+            type: string;
+            children: {
+              type: any;
+              version: number;
+              [k: string]: unknown;
+            }[];
+            direction: ('ltr' | 'rtl') | null;
+            format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+            indent: number;
+            version: number;
+          };
+          [k: string]: unknown;
+        };
+        id?: string | null;
+        blockName?: string | null;
+        blockType: 'Highlighted';
+      }
   )[];
   category?: (number | null) | Category;
   published?: boolean | null;
@@ -847,6 +867,26 @@ export interface LegalPost {
         blockName?: string | null;
         blockType: 'ImageBlock';
       }
+    | {
+        content: {
+          root: {
+            type: string;
+            children: {
+              type: any;
+              version: number;
+              [k: string]: unknown;
+            }[];
+            direction: ('ltr' | 'rtl') | null;
+            format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+            indent: number;
+            version: number;
+          };
+          [k: string]: unknown;
+        };
+        id?: string | null;
+        blockName?: string | null;
+        blockType: 'Highlighted';
+      }
   )[];
   category?: (number | null) | Category;
   published?: boolean | null;
@@ -1168,6 +1208,26 @@ export interface Theory {
         id?: string | null;
         blockName?: string | null;
         blockType: 'ImageBlock';
+      }
+    | {
+        content: {
+          root: {
+            type: string;
+            children: {
+              type: any;
+              version: number;
+              [k: string]: unknown;
+            }[];
+            direction: ('ltr' | 'rtl') | null;
+            format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+            indent: number;
+            version: number;
+          };
+          [k: string]: unknown;
+        };
+        id?: string | null;
+        blockName?: string | null;
+        blockType: 'Highlighted';
       }
   )[];
   category?: (number | null) | Category;
@@ -1534,6 +1594,13 @@ export interface ProceduresSelect<T extends boolean = true> {
               id?: T;
               blockName?: T;
             };
+        Highlighted?:
+          | T
+          | {
+              content?: T;
+              id?: T;
+              blockName?: T;
+            };
       };
   category?: T;
   published?: T;
@@ -1781,6 +1848,13 @@ export interface LegalPostsSelect<T extends boolean = true> {
           | T
           | {
               image?: T;
+              id?: T;
+              blockName?: T;
+            };
+        Highlighted?:
+          | T
+          | {
+              content?: T;
               id?: T;
               blockName?: T;
             };
@@ -2067,6 +2141,13 @@ export interface TheoriesSelect<T extends boolean = true> {
           | T
           | {
               image?: T;
+              id?: T;
+              blockName?: T;
+            };
+        Highlighted?:
+          | T
+          | {
+              content?: T;
               id?: T;
               blockName?: T;
             };

@@ -10,6 +10,7 @@ import { RichText } from '@/blocks/RichText'
 import { TwoColumnsWithTtitles } from '@/blocks/TwoColumnsWithTtitles'
 import { MediaTab } from '@/blocks/MediaTab'
 import { ImageBlock } from '@/blocks/ImageBlock'
+import { Highlighted } from '@/blocks/Highlighted'
 
 export const sharedBlocks = [
   Header,
@@ -24,6 +25,7 @@ export const sharedBlocks = [
   TwoColumnsWithTtitles,
   MediaTab,
   ImageBlock,
+  Highlighted,
 ]
 
 export const tabsBlocks = [
@@ -35,4 +37,5 @@ export const tabsBlocks = [
   TwoColumnsWithTtitles,
   MediaTab,
   ImageBlock,
+  Highlighted,
 ]
