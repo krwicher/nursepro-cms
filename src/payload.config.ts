@@ -43,4 +43,43 @@ export default buildConfig({
     payloadCloudPlugin(),
     // storage-adapter-placeholder
   ],
+  globals: [
+    {
+      slug: 'site-settings',
+      label: 'Site Settings',
+      access: {
+        read: () => true,
+      },
+      fields: [
+        {
+          name: 'email',
+          label: 'Email',
+          type: 'email',
+          required: true,
+        },
+        {
+          name: 'phone',
+          label: 'Phone Number',
+          type: 'text',
+        },
+        {
+          name: 'socialLinks',
+          label: 'Social Links',
+          type: 'group',
+          fields: [
+            {
+              name: 'facebook',
+              label: 'Facebook URL',
+              type: 'text',
+            },
+            {
+              name: 'instagram',
+              label: 'Instagram URL',
+              type: 'text',
+            },
+          ],
+        },
+      ],
+    },
+  ],
 })

@@ -1,13 +1,19 @@
 import type { CollectionConfig } from 'payload'
 import slugify from 'slugify'
+import { sharedBlocks } from '@/blocks/index'
 
 const Procedures: CollectionConfig = {
   slug: 'procedures',
-  labels: { singular: 'Procedure', plural: 'Procedures' },
+  labels: { singular: 'Procedura', plural: 'Procedury' },
   admin: { useAsTitle: 'title' },
-  access: { read: () => true, create: () => true, update: () => true, delete: () => true },
+  access: {
+    read: () => true,
+    create: () => true,
+    update: () => true,
+    delete: () => true,
+  },
   fields: [
-    { name: 'title', type: 'text', required: true },
+    { name: 'title', label: 'Tytuł', type: 'text', required: true },
     {
       name: 'slug',
       type: 'text',
@@ -17,18 +23,28 @@ const Procedures: CollectionConfig = {
         readOnly: true,
       },
     },
+    { name: 'subtitle', label: 'Podtytuł', type: 'text' },
+    {
+      name: 'zdjecie',
+      label: 'Zdjęcia główne',
+      type: 'upload',
+      relationTo: 'media',
+    },
     {
       name: 'content',
-      type: 'richText',
+      label: 'Treść artykułu',
+      type: 'blocks',
       required: true,
+      blocks: sharedBlocks,
     },
-    { name: 'published', type: 'checkbox' },
     {
       name: 'category',
+      label: 'Powiązana kategoria',
       type: 'relationship',
       relationTo: 'categories',
       hasMany: false,
     },
+    { name: 'published', label: 'Opublikowany', type: 'checkbox' },
   ],
   hooks: {
     beforeChange: [

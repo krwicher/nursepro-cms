@@ -1,17 +1,4 @@
-import { AddToFavoritesButton } from '@/blocks/AddToFavoritesButton'
-import { Attachments } from '@/blocks/Attachments'
-import { Header } from '@/blocks/Header'
-import { ImagesSlider } from '@/blocks/ImagesSlider'
-import { QuizEncouragment } from '@/blocks/QuizEncouragment'
-import { References } from '@/blocks/References'
-import { RelatedPosts } from '@/blocks/RelatedPosts'
-import { Tabs } from '@/blocks/Tabs'
-import { DropdownList } from '@/blocks/DropdownList'
-import { RichText } from '@/blocks/RichText'
-
-import { TwoColumnsWithTtitles } from '@/blocks/TwoColumnsWithTtitles'
-
-import { HeaderBlock } from '@/blocks/HeaderBlock'
+import { sharedBlocks } from '@/blocks/index'
 
 import type { CollectionConfig } from 'payload'
 import slugify from 'slugify'
@@ -52,20 +39,7 @@ const LegalPosts: CollectionConfig = {
       label: 'Treść artykułu',
       type: 'blocks',
       required: true,
-      blocks: [
-        HeaderBlock,
-        Header,
-        AddToFavoritesButton,
-        Attachments,
-        ImagesSlider,
-        QuizEncouragment,
-        References,
-        RelatedPosts,
-        Tabs,
-        DropdownList,
-        RichText,
-        TwoColumnsWithTtitles,
-      ],
+      blocks: sharedBlocks,
     },
     {
       name: 'category',

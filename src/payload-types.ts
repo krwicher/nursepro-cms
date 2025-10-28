@@ -94,8 +94,12 @@ export interface Config {
   db: {
     defaultIDType: number;
   };
-  globals: {};
-  globalsSelect: {};
+  globals: {
+    'site-settings': SiteSetting;
+  };
+  globalsSelect: {
+    'site-settings': SiteSettingsSelect<false> | SiteSettingsSelect<true>;
+  };
   locale: null;
   user: User & {
     collection: 'users';
@@ -174,76 +178,9 @@ export interface Procedure {
   id: number;
   title: string;
   slug?: string | null;
-  content: {
-    root: {
-      type: string;
-      children: {
-        type: any;
-        version: number;
-        [k: string]: unknown;
-      }[];
-      direction: ('ltr' | 'rtl') | null;
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-      indent: number;
-      version: number;
-    };
-    [k: string]: unknown;
-  };
-  published?: boolean | null;
-  category?: (number | null) | Category;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "categories".
- */
-export interface Category {
-  id: number;
-  name: string;
-  slug?: string | null;
-  image?: (number | null) | Media;
-  parent?: {
-    relationTo: 'categories';
-    value: number | Category;
-  } | null;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "legal-posts".
- */
-export interface LegalPost {
-  id: number;
-  title: string;
-  slug?: string | null;
   subtitle?: string | null;
-  estimation?: string | null;
-  zajawka?: string | null;
   zdjecie?: (number | null) | Media;
   content: (
-    | {
-        text: {
-          root: {
-            type: string;
-            children: {
-              type: any;
-              version: number;
-              [k: string]: unknown;
-            }[];
-            direction: ('ltr' | 'rtl') | null;
-            format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-            indent: number;
-            version: number;
-          };
-          [k: string]: unknown;
-        };
-        zdjecie: string;
-        id?: string | null;
-        blockName?: string | null;
-        blockType: 'tekst';
-      }
     | {
         title: string;
         font?: boolean | null;
@@ -251,12 +188,6 @@ export interface LegalPost {
         id?: string | null;
         blockName?: string | null;
         blockType: 'Header';
-      }
-    | {
-        post: number | Category;
-        id?: string | null;
-        blockName?: string | null;
-        blockType: 'AddToFavorites';
       }
     | {
         title: string;
@@ -536,6 +467,23 @@ export interface LegalPost {
         blockName?: string | null;
         blockType: 'TwoColumnsWithTtitles';
       }
+    | {
+        title?: string | null;
+        desc?: string | null;
+        /**
+         * Wybierz jedno lub więcej zdjęć z biblioteki mediów.
+         */
+        images?: (number | Media)[] | null;
+        id?: string | null;
+        blockName?: string | null;
+        blockType: 'MediaTab';
+      }
+    | {
+        image?: (number | null) | Media;
+        id?: string | null;
+        blockName?: string | null;
+        blockType: 'ImageBlock';
+      }
   )[];
   category?: (number | null) | Category;
   published?: boolean | null;
@@ -569,29 +517,661 @@ export interface Quiz {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "categories".
+ */
+export interface Category {
+  id: number;
+  name: string;
+  slug?: string | null;
+  image?: (number | null) | Media;
+  parent?: {
+    relationTo: 'categories';
+    value: number | Category;
+  } | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "legal-posts".
+ */
+export interface LegalPost {
+  id: number;
+  title: string;
+  slug?: string | null;
+  subtitle?: string | null;
+  estimation?: string | null;
+  zajawka?: string | null;
+  zdjecie?: (number | null) | Media;
+  content: (
+    | {
+        title: string;
+        font?: boolean | null;
+        content: string;
+        id?: string | null;
+        blockName?: string | null;
+        blockType: 'Header';
+      }
+    | {
+        title: string;
+        attachments?:
+          | {
+              fileName: string;
+              file?: (number | null) | Media;
+              id?: string | null;
+            }[]
+          | null;
+        id?: string | null;
+        blockName?: string | null;
+        blockType: 'Attachments';
+      }
+    | {
+        images?:
+          | {
+              image?: (number | null) | Media;
+              id?: string | null;
+            }[]
+          | null;
+        id?: string | null;
+        blockName?: string | null;
+        blockType: 'ImagesSlider';
+      }
+    | {
+        post: number | Quiz;
+        id?: string | null;
+        blockName?: string | null;
+        blockType: 'QuizEncouragment';
+      }
+    | {
+        title: string;
+        references?:
+          | {
+              reference?: string | null;
+              id?: string | null;
+            }[]
+          | null;
+        id?: string | null;
+        blockName?: string | null;
+        blockType: 'References';
+      }
+    | {
+        title?: string | null;
+        realtedPosts?:
+          | {
+              procedure?: (number | null) | Procedure;
+              id?: string | null;
+            }[]
+          | null;
+        id?: string | null;
+        blockName?: string | null;
+        blockType: 'RelatedPosts';
+      }
+    | {
+        tabs: {
+          title: string;
+          content: (
+            | {
+                title: string;
+                font?: boolean | null;
+                content: string;
+                id?: string | null;
+                blockName?: string | null;
+                blockType: 'Header';
+              }
+            | {
+                title: string;
+                attachments?:
+                  | {
+                      fileName: string;
+                      file?: (number | null) | Media;
+                      id?: string | null;
+                    }[]
+                  | null;
+                id?: string | null;
+                blockName?: string | null;
+                blockType: 'Attachments';
+              }
+            | {
+                images?:
+                  | {
+                      image?: (number | null) | Media;
+                      id?: string | null;
+                    }[]
+                  | null;
+                id?: string | null;
+                blockName?: string | null;
+                blockType: 'ImagesSlider';
+              }
+            | {
+                title?: string | null;
+                content: {
+                  root: {
+                    type: string;
+                    children: {
+                      type: any;
+                      version: number;
+                      [k: string]: unknown;
+                    }[];
+                    direction: ('ltr' | 'rtl') | null;
+                    format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+                    indent: number;
+                    version: number;
+                  };
+                  [k: string]: unknown;
+                };
+                highlighted?: boolean | null;
+                title2?: string | null;
+                content2: {
+                  root: {
+                    type: string;
+                    children: {
+                      type: any;
+                      version: number;
+                      [k: string]: unknown;
+                    }[];
+                    direction: ('ltr' | 'rtl') | null;
+                    format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+                    indent: number;
+                    version: number;
+                  };
+                  [k: string]: unknown;
+                };
+                highlighted2?: boolean | null;
+                id?: string | null;
+                blockName?: string | null;
+                blockType: 'TwoColumnsWithTtitles';
+              }
+          )[];
+          id?: string | null;
+        }[];
+        id?: string | null;
+        blockName?: string | null;
+        blockType: 'Tabs';
+      }
+    | {
+        tabs: {
+          title: string;
+          icon?: (number | null) | Media;
+          content: (
+            | {
+                title: string;
+                font?: boolean | null;
+                content: string;
+                id?: string | null;
+                blockName?: string | null;
+                blockType: 'Header';
+              }
+            | {
+                title: string;
+                attachments?:
+                  | {
+                      fileName: string;
+                      file?: (number | null) | Media;
+                      id?: string | null;
+                    }[]
+                  | null;
+                id?: string | null;
+                blockName?: string | null;
+                blockType: 'Attachments';
+              }
+            | {
+                images?:
+                  | {
+                      image?: (number | null) | Media;
+                      id?: string | null;
+                    }[]
+                  | null;
+                id?: string | null;
+                blockName?: string | null;
+                blockType: 'ImagesSlider';
+              }
+            | {
+                title?: string | null;
+                content: {
+                  root: {
+                    type: string;
+                    children: {
+                      type: any;
+                      version: number;
+                      [k: string]: unknown;
+                    }[];
+                    direction: ('ltr' | 'rtl') | null;
+                    format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+                    indent: number;
+                    version: number;
+                  };
+                  [k: string]: unknown;
+                };
+                highlighted?: boolean | null;
+                title2?: string | null;
+                content2: {
+                  root: {
+                    type: string;
+                    children: {
+                      type: any;
+                      version: number;
+                      [k: string]: unknown;
+                    }[];
+                    direction: ('ltr' | 'rtl') | null;
+                    format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+                    indent: number;
+                    version: number;
+                  };
+                  [k: string]: unknown;
+                };
+                highlighted2?: boolean | null;
+                id?: string | null;
+                blockName?: string | null;
+                blockType: 'TwoColumnsWithTtitles';
+              }
+          )[];
+          id?: string | null;
+        }[];
+        id?: string | null;
+        blockName?: string | null;
+        blockType: 'DropdownList';
+      }
+    | {
+        content: {
+          root: {
+            type: string;
+            children: {
+              type: any;
+              version: number;
+              [k: string]: unknown;
+            }[];
+            direction: ('ltr' | 'rtl') | null;
+            format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+            indent: number;
+            version: number;
+          };
+          [k: string]: unknown;
+        };
+        id?: string | null;
+        blockName?: string | null;
+        blockType: 'RichText';
+      }
+    | {
+        title?: string | null;
+        content: {
+          root: {
+            type: string;
+            children: {
+              type: any;
+              version: number;
+              [k: string]: unknown;
+            }[];
+            direction: ('ltr' | 'rtl') | null;
+            format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+            indent: number;
+            version: number;
+          };
+          [k: string]: unknown;
+        };
+        highlighted?: boolean | null;
+        title2?: string | null;
+        content2: {
+          root: {
+            type: string;
+            children: {
+              type: any;
+              version: number;
+              [k: string]: unknown;
+            }[];
+            direction: ('ltr' | 'rtl') | null;
+            format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+            indent: number;
+            version: number;
+          };
+          [k: string]: unknown;
+        };
+        highlighted2?: boolean | null;
+        id?: string | null;
+        blockName?: string | null;
+        blockType: 'TwoColumnsWithTtitles';
+      }
+    | {
+        title?: string | null;
+        desc?: string | null;
+        /**
+         * Wybierz jedno lub więcej zdjęć z biblioteki mediów.
+         */
+        images?: (number | Media)[] | null;
+        id?: string | null;
+        blockName?: string | null;
+        blockType: 'MediaTab';
+      }
+    | {
+        image?: (number | null) | Media;
+        id?: string | null;
+        blockName?: string | null;
+        blockType: 'ImageBlock';
+      }
+  )[];
+  category?: (number | null) | Category;
+  published?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "theories".
  */
 export interface Theory {
   id: number;
   title: string;
   slug?: string | null;
-  content: {
-    root: {
-      type: string;
-      children: {
-        type: any;
-        version: number;
-        [k: string]: unknown;
-      }[];
-      direction: ('ltr' | 'rtl') | null;
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-      indent: number;
-      version: number;
-    };
-    [k: string]: unknown;
-  };
-  published?: boolean | null;
+  subtitle?: string | null;
+  estimation?: string | null;
+  zajawka?: string | null;
+  zdjecie?: (number | null) | Media;
+  content: (
+    | {
+        title: string;
+        font?: boolean | null;
+        content: string;
+        id?: string | null;
+        blockName?: string | null;
+        blockType: 'Header';
+      }
+    | {
+        title: string;
+        attachments?:
+          | {
+              fileName: string;
+              file?: (number | null) | Media;
+              id?: string | null;
+            }[]
+          | null;
+        id?: string | null;
+        blockName?: string | null;
+        blockType: 'Attachments';
+      }
+    | {
+        images?:
+          | {
+              image?: (number | null) | Media;
+              id?: string | null;
+            }[]
+          | null;
+        id?: string | null;
+        blockName?: string | null;
+        blockType: 'ImagesSlider';
+      }
+    | {
+        post: number | Quiz;
+        id?: string | null;
+        blockName?: string | null;
+        blockType: 'QuizEncouragment';
+      }
+    | {
+        title: string;
+        references?:
+          | {
+              reference?: string | null;
+              id?: string | null;
+            }[]
+          | null;
+        id?: string | null;
+        blockName?: string | null;
+        blockType: 'References';
+      }
+    | {
+        title?: string | null;
+        realtedPosts?:
+          | {
+              procedure?: (number | null) | Procedure;
+              id?: string | null;
+            }[]
+          | null;
+        id?: string | null;
+        blockName?: string | null;
+        blockType: 'RelatedPosts';
+      }
+    | {
+        tabs: {
+          title: string;
+          content: (
+            | {
+                title: string;
+                font?: boolean | null;
+                content: string;
+                id?: string | null;
+                blockName?: string | null;
+                blockType: 'Header';
+              }
+            | {
+                title: string;
+                attachments?:
+                  | {
+                      fileName: string;
+                      file?: (number | null) | Media;
+                      id?: string | null;
+                    }[]
+                  | null;
+                id?: string | null;
+                blockName?: string | null;
+                blockType: 'Attachments';
+              }
+            | {
+                images?:
+                  | {
+                      image?: (number | null) | Media;
+                      id?: string | null;
+                    }[]
+                  | null;
+                id?: string | null;
+                blockName?: string | null;
+                blockType: 'ImagesSlider';
+              }
+            | {
+                title?: string | null;
+                content: {
+                  root: {
+                    type: string;
+                    children: {
+                      type: any;
+                      version: number;
+                      [k: string]: unknown;
+                    }[];
+                    direction: ('ltr' | 'rtl') | null;
+                    format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+                    indent: number;
+                    version: number;
+                  };
+                  [k: string]: unknown;
+                };
+                highlighted?: boolean | null;
+                title2?: string | null;
+                content2: {
+                  root: {
+                    type: string;
+                    children: {
+                      type: any;
+                      version: number;
+                      [k: string]: unknown;
+                    }[];
+                    direction: ('ltr' | 'rtl') | null;
+                    format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+                    indent: number;
+                    version: number;
+                  };
+                  [k: string]: unknown;
+                };
+                highlighted2?: boolean | null;
+                id?: string | null;
+                blockName?: string | null;
+                blockType: 'TwoColumnsWithTtitles';
+              }
+          )[];
+          id?: string | null;
+        }[];
+        id?: string | null;
+        blockName?: string | null;
+        blockType: 'Tabs';
+      }
+    | {
+        tabs: {
+          title: string;
+          icon?: (number | null) | Media;
+          content: (
+            | {
+                title: string;
+                font?: boolean | null;
+                content: string;
+                id?: string | null;
+                blockName?: string | null;
+                blockType: 'Header';
+              }
+            | {
+                title: string;
+                attachments?:
+                  | {
+                      fileName: string;
+                      file?: (number | null) | Media;
+                      id?: string | null;
+                    }[]
+                  | null;
+                id?: string | null;
+                blockName?: string | null;
+                blockType: 'Attachments';
+              }
+            | {
+                images?:
+                  | {
+                      image?: (number | null) | Media;
+                      id?: string | null;
+                    }[]
+                  | null;
+                id?: string | null;
+                blockName?: string | null;
+                blockType: 'ImagesSlider';
+              }
+            | {
+                title?: string | null;
+                content: {
+                  root: {
+                    type: string;
+                    children: {
+                      type: any;
+                      version: number;
+                      [k: string]: unknown;
+                    }[];
+                    direction: ('ltr' | 'rtl') | null;
+                    format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+                    indent: number;
+                    version: number;
+                  };
+                  [k: string]: unknown;
+                };
+                highlighted?: boolean | null;
+                title2?: string | null;
+                content2: {
+                  root: {
+                    type: string;
+                    children: {
+                      type: any;
+                      version: number;
+                      [k: string]: unknown;
+                    }[];
+                    direction: ('ltr' | 'rtl') | null;
+                    format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+                    indent: number;
+                    version: number;
+                  };
+                  [k: string]: unknown;
+                };
+                highlighted2?: boolean | null;
+                id?: string | null;
+                blockName?: string | null;
+                blockType: 'TwoColumnsWithTtitles';
+              }
+          )[];
+          id?: string | null;
+        }[];
+        id?: string | null;
+        blockName?: string | null;
+        blockType: 'DropdownList';
+      }
+    | {
+        content: {
+          root: {
+            type: string;
+            children: {
+              type: any;
+              version: number;
+              [k: string]: unknown;
+            }[];
+            direction: ('ltr' | 'rtl') | null;
+            format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+            indent: number;
+            version: number;
+          };
+          [k: string]: unknown;
+        };
+        id?: string | null;
+        blockName?: string | null;
+        blockType: 'RichText';
+      }
+    | {
+        title?: string | null;
+        content: {
+          root: {
+            type: string;
+            children: {
+              type: any;
+              version: number;
+              [k: string]: unknown;
+            }[];
+            direction: ('ltr' | 'rtl') | null;
+            format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+            indent: number;
+            version: number;
+          };
+          [k: string]: unknown;
+        };
+        highlighted?: boolean | null;
+        title2?: string | null;
+        content2: {
+          root: {
+            type: string;
+            children: {
+              type: any;
+              version: number;
+              [k: string]: unknown;
+            }[];
+            direction: ('ltr' | 'rtl') | null;
+            format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+            indent: number;
+            version: number;
+          };
+          [k: string]: unknown;
+        };
+        highlighted2?: boolean | null;
+        id?: string | null;
+        blockName?: string | null;
+        blockType: 'TwoColumnsWithTtitles';
+      }
+    | {
+        title?: string | null;
+        desc?: string | null;
+        /**
+         * Wybierz jedno lub więcej zdjęć z biblioteki mediów.
+         */
+        images?: (number | Media)[] | null;
+        id?: string | null;
+        blockName?: string | null;
+        blockType: 'MediaTab';
+      }
+    | {
+        image?: (number | null) | Media;
+        id?: string | null;
+        blockName?: string | null;
+        blockType: 'ImageBlock';
+      }
+  )[];
   category?: (number | null) | Category;
+  published?: boolean | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -719,47 +1299,17 @@ export interface MediaSelect<T extends boolean = true> {
 export interface ProceduresSelect<T extends boolean = true> {
   title?: T;
   slug?: T;
-  content?: T;
-  published?: T;
-  category?: T;
-  updatedAt?: T;
-  createdAt?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "legal-posts_select".
- */
-export interface LegalPostsSelect<T extends boolean = true> {
-  title?: T;
-  slug?: T;
   subtitle?: T;
-  estimation?: T;
-  zajawka?: T;
   zdjecie?: T;
   content?:
     | T
     | {
-        tekst?:
-          | T
-          | {
-              text?: T;
-              zdjecie?: T;
-              id?: T;
-              blockName?: T;
-            };
         Header?:
           | T
           | {
               title?: T;
               font?: T;
               content?: T;
-              id?: T;
-              blockName?: T;
-            };
-        AddToFavorites?:
-          | T
-          | {
-              post?: T;
               id?: T;
               blockName?: T;
             };
@@ -968,6 +1518,272 @@ export interface LegalPostsSelect<T extends boolean = true> {
               id?: T;
               blockName?: T;
             };
+        MediaTab?:
+          | T
+          | {
+              title?: T;
+              desc?: T;
+              images?: T;
+              id?: T;
+              blockName?: T;
+            };
+        ImageBlock?:
+          | T
+          | {
+              image?: T;
+              id?: T;
+              blockName?: T;
+            };
+      };
+  category?: T;
+  published?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "legal-posts_select".
+ */
+export interface LegalPostsSelect<T extends boolean = true> {
+  title?: T;
+  slug?: T;
+  subtitle?: T;
+  estimation?: T;
+  zajawka?: T;
+  zdjecie?: T;
+  content?:
+    | T
+    | {
+        Header?:
+          | T
+          | {
+              title?: T;
+              font?: T;
+              content?: T;
+              id?: T;
+              blockName?: T;
+            };
+        Attachments?:
+          | T
+          | {
+              title?: T;
+              attachments?:
+                | T
+                | {
+                    fileName?: T;
+                    file?: T;
+                    id?: T;
+                  };
+              id?: T;
+              blockName?: T;
+            };
+        ImagesSlider?:
+          | T
+          | {
+              images?:
+                | T
+                | {
+                    image?: T;
+                    id?: T;
+                  };
+              id?: T;
+              blockName?: T;
+            };
+        QuizEncouragment?:
+          | T
+          | {
+              post?: T;
+              id?: T;
+              blockName?: T;
+            };
+        References?:
+          | T
+          | {
+              title?: T;
+              references?:
+                | T
+                | {
+                    reference?: T;
+                    id?: T;
+                  };
+              id?: T;
+              blockName?: T;
+            };
+        RelatedPosts?:
+          | T
+          | {
+              title?: T;
+              realtedPosts?:
+                | T
+                | {
+                    procedure?: T;
+                    id?: T;
+                  };
+              id?: T;
+              blockName?: T;
+            };
+        Tabs?:
+          | T
+          | {
+              tabs?:
+                | T
+                | {
+                    title?: T;
+                    content?:
+                      | T
+                      | {
+                          Header?:
+                            | T
+                            | {
+                                title?: T;
+                                font?: T;
+                                content?: T;
+                                id?: T;
+                                blockName?: T;
+                              };
+                          Attachments?:
+                            | T
+                            | {
+                                title?: T;
+                                attachments?:
+                                  | T
+                                  | {
+                                      fileName?: T;
+                                      file?: T;
+                                      id?: T;
+                                    };
+                                id?: T;
+                                blockName?: T;
+                              };
+                          ImagesSlider?:
+                            | T
+                            | {
+                                images?:
+                                  | T
+                                  | {
+                                      image?: T;
+                                      id?: T;
+                                    };
+                                id?: T;
+                                blockName?: T;
+                              };
+                          TwoColumnsWithTtitles?:
+                            | T
+                            | {
+                                title?: T;
+                                content?: T;
+                                highlighted?: T;
+                                title2?: T;
+                                content2?: T;
+                                highlighted2?: T;
+                                id?: T;
+                                blockName?: T;
+                              };
+                        };
+                    id?: T;
+                  };
+              id?: T;
+              blockName?: T;
+            };
+        DropdownList?:
+          | T
+          | {
+              tabs?:
+                | T
+                | {
+                    title?: T;
+                    icon?: T;
+                    content?:
+                      | T
+                      | {
+                          Header?:
+                            | T
+                            | {
+                                title?: T;
+                                font?: T;
+                                content?: T;
+                                id?: T;
+                                blockName?: T;
+                              };
+                          Attachments?:
+                            | T
+                            | {
+                                title?: T;
+                                attachments?:
+                                  | T
+                                  | {
+                                      fileName?: T;
+                                      file?: T;
+                                      id?: T;
+                                    };
+                                id?: T;
+                                blockName?: T;
+                              };
+                          ImagesSlider?:
+                            | T
+                            | {
+                                images?:
+                                  | T
+                                  | {
+                                      image?: T;
+                                      id?: T;
+                                    };
+                                id?: T;
+                                blockName?: T;
+                              };
+                          TwoColumnsWithTtitles?:
+                            | T
+                            | {
+                                title?: T;
+                                content?: T;
+                                highlighted?: T;
+                                title2?: T;
+                                content2?: T;
+                                highlighted2?: T;
+                                id?: T;
+                                blockName?: T;
+                              };
+                        };
+                    id?: T;
+                  };
+              id?: T;
+              blockName?: T;
+            };
+        RichText?:
+          | T
+          | {
+              content?: T;
+              id?: T;
+              blockName?: T;
+            };
+        TwoColumnsWithTtitles?:
+          | T
+          | {
+              title?: T;
+              content?: T;
+              highlighted?: T;
+              title2?: T;
+              content2?: T;
+              highlighted2?: T;
+              id?: T;
+              blockName?: T;
+            };
+        MediaTab?:
+          | T
+          | {
+              title?: T;
+              desc?: T;
+              images?: T;
+              id?: T;
+              blockName?: T;
+            };
+        ImageBlock?:
+          | T
+          | {
+              image?: T;
+              id?: T;
+              blockName?: T;
+            };
       };
   category?: T;
   published?: T;
@@ -1017,9 +1833,246 @@ export interface CategoriesSelect<T extends boolean = true> {
 export interface TheoriesSelect<T extends boolean = true> {
   title?: T;
   slug?: T;
-  content?: T;
-  published?: T;
+  subtitle?: T;
+  estimation?: T;
+  zajawka?: T;
+  zdjecie?: T;
+  content?:
+    | T
+    | {
+        Header?:
+          | T
+          | {
+              title?: T;
+              font?: T;
+              content?: T;
+              id?: T;
+              blockName?: T;
+            };
+        Attachments?:
+          | T
+          | {
+              title?: T;
+              attachments?:
+                | T
+                | {
+                    fileName?: T;
+                    file?: T;
+                    id?: T;
+                  };
+              id?: T;
+              blockName?: T;
+            };
+        ImagesSlider?:
+          | T
+          | {
+              images?:
+                | T
+                | {
+                    image?: T;
+                    id?: T;
+                  };
+              id?: T;
+              blockName?: T;
+            };
+        QuizEncouragment?:
+          | T
+          | {
+              post?: T;
+              id?: T;
+              blockName?: T;
+            };
+        References?:
+          | T
+          | {
+              title?: T;
+              references?:
+                | T
+                | {
+                    reference?: T;
+                    id?: T;
+                  };
+              id?: T;
+              blockName?: T;
+            };
+        RelatedPosts?:
+          | T
+          | {
+              title?: T;
+              realtedPosts?:
+                | T
+                | {
+                    procedure?: T;
+                    id?: T;
+                  };
+              id?: T;
+              blockName?: T;
+            };
+        Tabs?:
+          | T
+          | {
+              tabs?:
+                | T
+                | {
+                    title?: T;
+                    content?:
+                      | T
+                      | {
+                          Header?:
+                            | T
+                            | {
+                                title?: T;
+                                font?: T;
+                                content?: T;
+                                id?: T;
+                                blockName?: T;
+                              };
+                          Attachments?:
+                            | T
+                            | {
+                                title?: T;
+                                attachments?:
+                                  | T
+                                  | {
+                                      fileName?: T;
+                                      file?: T;
+                                      id?: T;
+                                    };
+                                id?: T;
+                                blockName?: T;
+                              };
+                          ImagesSlider?:
+                            | T
+                            | {
+                                images?:
+                                  | T
+                                  | {
+                                      image?: T;
+                                      id?: T;
+                                    };
+                                id?: T;
+                                blockName?: T;
+                              };
+                          TwoColumnsWithTtitles?:
+                            | T
+                            | {
+                                title?: T;
+                                content?: T;
+                                highlighted?: T;
+                                title2?: T;
+                                content2?: T;
+                                highlighted2?: T;
+                                id?: T;
+                                blockName?: T;
+                              };
+                        };
+                    id?: T;
+                  };
+              id?: T;
+              blockName?: T;
+            };
+        DropdownList?:
+          | T
+          | {
+              tabs?:
+                | T
+                | {
+                    title?: T;
+                    icon?: T;
+                    content?:
+                      | T
+                      | {
+                          Header?:
+                            | T
+                            | {
+                                title?: T;
+                                font?: T;
+                                content?: T;
+                                id?: T;
+                                blockName?: T;
+                              };
+                          Attachments?:
+                            | T
+                            | {
+                                title?: T;
+                                attachments?:
+                                  | T
+                                  | {
+                                      fileName?: T;
+                                      file?: T;
+                                      id?: T;
+                                    };
+                                id?: T;
+                                blockName?: T;
+                              };
+                          ImagesSlider?:
+                            | T
+                            | {
+                                images?:
+                                  | T
+                                  | {
+                                      image?: T;
+                                      id?: T;
+                                    };
+                                id?: T;
+                                blockName?: T;
+                              };
+                          TwoColumnsWithTtitles?:
+                            | T
+                            | {
+                                title?: T;
+                                content?: T;
+                                highlighted?: T;
+                                title2?: T;
+                                content2?: T;
+                                highlighted2?: T;
+                                id?: T;
+                                blockName?: T;
+                              };
+                        };
+                    id?: T;
+                  };
+              id?: T;
+              blockName?: T;
+            };
+        RichText?:
+          | T
+          | {
+              content?: T;
+              id?: T;
+              blockName?: T;
+            };
+        TwoColumnsWithTtitles?:
+          | T
+          | {
+              title?: T;
+              content?: T;
+              highlighted?: T;
+              title2?: T;
+              content2?: T;
+              highlighted2?: T;
+              id?: T;
+              blockName?: T;
+            };
+        MediaTab?:
+          | T
+          | {
+              title?: T;
+              desc?: T;
+              images?: T;
+              id?: T;
+              blockName?: T;
+            };
+        ImageBlock?:
+          | T
+          | {
+              image?: T;
+              id?: T;
+              blockName?: T;
+            };
+      };
   category?: T;
+  published?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -1054,6 +2107,38 @@ export interface PayloadMigrationsSelect<T extends boolean = true> {
   batch?: T;
   updatedAt?: T;
   createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "site-settings".
+ */
+export interface SiteSetting {
+  id: number;
+  email: string;
+  phone?: string | null;
+  socialLinks?: {
+    facebook?: string | null;
+    instagram?: string | null;
+  };
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "site-settings_select".
+ */
+export interface SiteSettingsSelect<T extends boolean = true> {
+  email?: T;
+  phone?: T;
+  socialLinks?:
+    | T
+    | {
+        facebook?: T;
+        instagram?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

@@ -1,13 +1,20 @@
+import { sharedBlocks } from '@/blocks/index'
+
 import type { CollectionConfig } from 'payload'
 import slugify from 'slugify'
 
 const Theories: CollectionConfig = {
   slug: 'theories',
-  labels: { singular: 'Theory', plural: 'Theories' },
+  labels: { singular: 'Teoria', plural: 'Teorie' },
   admin: { useAsTitle: 'title' },
-  access: { read: () => true, create: () => true, update: () => true, delete: () => true },
+  access: {
+    read: () => true,
+    create: () => true,
+    update: () => true,
+    delete: () => true,
+  },
   fields: [
-    { name: 'title', type: 'text', required: true },
+    { name: 'title', label: 'Tytuł', type: 'text', required: true },
     {
       name: 'slug',
       type: 'text',
@@ -17,18 +24,31 @@ const Theories: CollectionConfig = {
         readOnly: true,
       },
     },
+    { name: 'subtitle', label: 'Podtytuł', type: 'text' },
+    { name: 'estimation', label: 'Czas', type: 'text' },
+    { name: 'zajawka', label: 'Zajawka', type: 'textarea' },
+
+    {
+      name: 'zdjecie',
+      label: 'Zdjęcia główne',
+      type: 'upload',
+      relationTo: 'media',
+    },
     {
       name: 'content',
-      type: 'richText',
+      label: 'Treść artykułu',
+      type: 'blocks',
       required: true,
+      blocks: sharedBlocks,
     },
-    { name: 'published', type: 'checkbox' },
     {
       name: 'category',
+      label: 'Powiązana kategoria',
       type: 'relationship',
       relationTo: 'categories',
       hasMany: false,
     },
+    { name: 'published', label: 'Opublikowany', type: 'checkbox' },
   ],
   hooks: {
     beforeChange: [
