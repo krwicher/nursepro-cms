@@ -518,10 +518,12 @@ export interface Quiz {
   id: number;
   title: string;
   slug?: string | null;
+  prevQuestion?: boolean | null;
   category: number | Category;
   questions?:
     | {
         questionText: string;
+        zdjecie?: (number | null) | Media;
         answers?:
           | {
               answerText: string;
@@ -1871,11 +1873,13 @@ export interface LegalPostsSelect<T extends boolean = true> {
 export interface QuizzesSelect<T extends boolean = true> {
   title?: T;
   slug?: T;
+  prevQuestion?: T;
   category?: T;
   questions?:
     | T
     | {
         questionText?: T;
+        zdjecie?: T;
         answers?:
           | T
           | {

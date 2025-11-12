@@ -3,7 +3,7 @@ import { postgresAdapter } from '@payloadcms/db-postgres'
 import { payloadCloudPlugin } from '@payloadcms/payload-cloud'
 import { lexicalEditor } from '@payloadcms/richtext-lexical'
 import path from 'path'
-import { buildConfig } from 'payload'
+import { buildConfig, CollectionSlug } from 'payload'
 import { fileURLToPath } from 'url'
 import sharp from 'sharp'
 
@@ -28,6 +28,46 @@ export default buildConfig({
     },
   },
   collections: [Users, Media, Procedures, LegalPosts, Quizzes, Categories, Theories],
+  endpoints: [
+    {
+      path: '/search',
+      method: 'get',
+      handler: async (req) => {
+        const { query } = req.query
+
+        if (!query || typeof query !== 'string') {
+          return Response.json({ error: 'Query parameter is required' }, { status: 400 })
+        }
+
+        const collections: CollectionSlug[] = ['procedures', 'legal-posts', 'quizzes', 'theories']
+        const results = []
+
+        for (const collection of collections) {
+          try {
+            const result = await req.payload.find({
+              collection,
+              where: {
+                title: { contains: query },
+              },
+              limit: 10,
+            })
+
+            if (result.docs.length > 0) {
+              results.push({
+                collection,
+                items: result.docs,
+                total: result.totalDocs,
+              })
+            }
+          } catch (error) {
+            console.error(`Error searching ${collection}:`, error)
+          }
+        }
+
+        return Response.json({ results, query })
+      },
+    },
+  ],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || '',
   typescript: {

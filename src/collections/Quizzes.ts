@@ -28,6 +28,11 @@ export const Quizzes: CollectionConfig = {
       },
     },
     {
+      name: 'prevQuestion',
+      type: 'checkbox',
+      label: 'Powrót do pytań',
+    },
+    {
       name: 'category',
       type: 'relationship',
       relationTo: 'categories',
@@ -46,6 +51,12 @@ export const Quizzes: CollectionConfig = {
           type: 'text',
           label: 'Treść pytania',
           required: true,
+        },
+        {
+          name: 'zdjecie',
+          label: 'Zdjęcie',
+          type: 'upload',
+          relationTo: 'media',
         },
         {
           name: 'answers',
