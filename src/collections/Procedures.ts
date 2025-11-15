@@ -8,9 +8,6 @@ const Procedures: CollectionConfig = {
   admin: { useAsTitle: 'title' },
   access: {
     read: () => true,
-    create: () => true,
-    update: () => true,
-    delete: () => true,
   },
   fields: [
     { name: 'title', label: 'Tytuł', type: 'text', required: true },

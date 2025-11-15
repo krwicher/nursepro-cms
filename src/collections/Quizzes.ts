@@ -3,7 +3,7 @@ import slugify from 'slugify'
 
 export const Quizzes: CollectionConfig = {
   slug: 'quizzes',
-  access: { read: () => true, create: () => true, update: () => true, delete: () => true },
+  access: { read: () => true },
   labels: {
     singular: 'Quiz',
     plural: 'Quizy',
