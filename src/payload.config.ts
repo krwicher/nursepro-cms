@@ -14,6 +14,7 @@ import LegalPosts from './collections/LegalPosts'
 import { Quizzes } from './collections/Quizzes'
 import { Categories } from './collections/Categories'
 import Theories from './collections/Theories'
+import { Messages } from './collections/Messages'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -27,7 +28,7 @@ export default buildConfig({
       baseDir: path.resolve(dirname),
     },
   },
-  collections: [Users, Media, Procedures, LegalPosts, Quizzes, Categories, Theories],
+  collections: [Users, Media, Procedures, LegalPosts, Quizzes, Categories, Theories, Messages],
   endpoints: [
     {
       path: '/search',
