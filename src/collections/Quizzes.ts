@@ -80,6 +80,7 @@ export const Quizzes: CollectionConfig = {
         },
       ],
     },
+    { name: 'published', label: 'Opublikowany', type: 'checkbox' },
   ],
   hooks: {
     beforeChange: [

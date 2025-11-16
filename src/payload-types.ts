@@ -536,6 +536,7 @@ export interface Quiz {
         id?: string | null;
       }[]
     | null;
+  published?: boolean | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -1907,6 +1908,7 @@ export interface QuizzesSelect<T extends boolean = true> {
             };
         id?: T;
       };
+  published?: T;
   updatedAt?: T;
   createdAt?: T;
 }
