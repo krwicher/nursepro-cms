@@ -3,6 +3,10 @@ import { Attachments } from '@/blocks/Attachments'
 import { Header } from '@/blocks/Header'
 import { ImagesSlider } from '@/blocks/ImagesSlider'
 import { TwoColumnsWithTtitles } from '@/blocks/TwoColumnsWithTtitles'
+import { MediaTab } from './MediaTab'
+import { RichText } from './RichText'
+import { ImageBlock } from './ImageBlock'
+import { Highlighted } from './Highlighted'
 
 export const DropdownList: Block = {
   slug: 'DropdownList',
@@ -33,7 +37,16 @@ export const DropdownList: Block = {
           label: 'Zawartość zakładki',
           type: 'blocks',
           required: true,
-          blocks: [Header, Attachments, ImagesSlider, TwoColumnsWithTtitles],
+          blocks: [
+            Header,
+            Attachments,
+            ImagesSlider,
+            TwoColumnsWithTtitles,
+            MediaTab,
+            ImageBlock,
+            Highlighted,
+            RichText,
+          ],
         },
       ],
     },

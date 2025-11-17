@@ -246,6 +246,7 @@ export interface Procedure {
         blockType: 'RelatedPosts';
       }
     | {
+        smallLabel?: boolean | null;
         tabs: {
           title: string;
           content: (
@@ -319,6 +320,203 @@ export interface Procedure {
                 id?: string | null;
                 blockName?: string | null;
                 blockType: 'TwoColumnsWithTtitles';
+              }
+            | {
+                title?: string | null;
+                desc?: string | null;
+                /**
+                 * Wybierz jedno lub więcej zdjęć z biblioteki mediów.
+                 */
+                images?: (number | Media)[] | null;
+                id?: string | null;
+                blockName?: string | null;
+                blockType: 'MediaTab';
+              }
+            | {
+                tabs: {
+                  title: string;
+                  icon?: (number | null) | Media;
+                  content: (
+                    | {
+                        title: string;
+                        font?: boolean | null;
+                        content: string;
+                        id?: string | null;
+                        blockName?: string | null;
+                        blockType: 'Header';
+                      }
+                    | {
+                        title: string;
+                        attachments?:
+                          | {
+                              fileName: string;
+                              file?: (number | null) | Media;
+                              id?: string | null;
+                            }[]
+                          | null;
+                        id?: string | null;
+                        blockName?: string | null;
+                        blockType: 'Attachments';
+                      }
+                    | {
+                        images?:
+                          | {
+                              image?: (number | null) | Media;
+                              id?: string | null;
+                            }[]
+                          | null;
+                        id?: string | null;
+                        blockName?: string | null;
+                        blockType: 'ImagesSlider';
+                      }
+                    | {
+                        title?: string | null;
+                        content: {
+                          root: {
+                            type: string;
+                            children: {
+                              type: any;
+                              version: number;
+                              [k: string]: unknown;
+                            }[];
+                            direction: ('ltr' | 'rtl') | null;
+                            format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+                            indent: number;
+                            version: number;
+                          };
+                          [k: string]: unknown;
+                        };
+                        highlighted?: boolean | null;
+                        title2?: string | null;
+                        content2: {
+                          root: {
+                            type: string;
+                            children: {
+                              type: any;
+                              version: number;
+                              [k: string]: unknown;
+                            }[];
+                            direction: ('ltr' | 'rtl') | null;
+                            format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+                            indent: number;
+                            version: number;
+                          };
+                          [k: string]: unknown;
+                        };
+                        highlighted2?: boolean | null;
+                        id?: string | null;
+                        blockName?: string | null;
+                        blockType: 'TwoColumnsWithTtitles';
+                      }
+                    | {
+                        title?: string | null;
+                        desc?: string | null;
+                        /**
+                         * Wybierz jedno lub więcej zdjęć z biblioteki mediów.
+                         */
+                        images?: (number | Media)[] | null;
+                        id?: string | null;
+                        blockName?: string | null;
+                        blockType: 'MediaTab';
+                      }
+                    | {
+                        image?: (number | null) | Media;
+                        id?: string | null;
+                        blockName?: string | null;
+                        blockType: 'ImageBlock';
+                      }
+                    | {
+                        content: {
+                          root: {
+                            type: string;
+                            children: {
+                              type: any;
+                              version: number;
+                              [k: string]: unknown;
+                            }[];
+                            direction: ('ltr' | 'rtl') | null;
+                            format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+                            indent: number;
+                            version: number;
+                          };
+                          [k: string]: unknown;
+                        };
+                        id?: string | null;
+                        blockName?: string | null;
+                        blockType: 'Highlighted';
+                      }
+                    | {
+                        content: {
+                          root: {
+                            type: string;
+                            children: {
+                              type: any;
+                              version: number;
+                              [k: string]: unknown;
+                            }[];
+                            direction: ('ltr' | 'rtl') | null;
+                            format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+                            indent: number;
+                            version: number;
+                          };
+                          [k: string]: unknown;
+                        };
+                        id?: string | null;
+                        blockName?: string | null;
+                        blockType: 'RichText';
+                      }
+                  )[];
+                  id?: string | null;
+                }[];
+                id?: string | null;
+                blockName?: string | null;
+                blockType: 'DropdownList';
+              }
+            | {
+                image?: (number | null) | Media;
+                id?: string | null;
+                blockName?: string | null;
+                blockType: 'ImageBlock';
+              }
+            | {
+                content: {
+                  root: {
+                    type: string;
+                    children: {
+                      type: any;
+                      version: number;
+                      [k: string]: unknown;
+                    }[];
+                    direction: ('ltr' | 'rtl') | null;
+                    format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+                    indent: number;
+                    version: number;
+                  };
+                  [k: string]: unknown;
+                };
+                id?: string | null;
+                blockName?: string | null;
+                blockType: 'Highlighted';
+              }
+            | {
+                content: {
+                  root: {
+                    type: string;
+                    children: {
+                      type: any;
+                      version: number;
+                      [k: string]: unknown;
+                    }[];
+                    direction: ('ltr' | 'rtl') | null;
+                    format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+                    indent: number;
+                    version: number;
+                  };
+                  [k: string]: unknown;
+                };
+                id?: string | null;
+                blockName?: string | null;
+                blockType: 'RichText';
               }
           )[];
           id?: string | null;
@@ -402,6 +600,63 @@ export interface Procedure {
                 id?: string | null;
                 blockName?: string | null;
                 blockType: 'TwoColumnsWithTtitles';
+              }
+            | {
+                title?: string | null;
+                desc?: string | null;
+                /**
+                 * Wybierz jedno lub więcej zdjęć z biblioteki mediów.
+                 */
+                images?: (number | Media)[] | null;
+                id?: string | null;
+                blockName?: string | null;
+                blockType: 'MediaTab';
+              }
+            | {
+                image?: (number | null) | Media;
+                id?: string | null;
+                blockName?: string | null;
+                blockType: 'ImageBlock';
+              }
+            | {
+                content: {
+                  root: {
+                    type: string;
+                    children: {
+                      type: any;
+                      version: number;
+                      [k: string]: unknown;
+                    }[];
+                    direction: ('ltr' | 'rtl') | null;
+                    format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+                    indent: number;
+                    version: number;
+                  };
+                  [k: string]: unknown;
+                };
+                id?: string | null;
+                blockName?: string | null;
+                blockType: 'Highlighted';
+              }
+            | {
+                content: {
+                  root: {
+                    type: string;
+                    children: {
+                      type: any;
+                      version: number;
+                      [k: string]: unknown;
+                    }[];
+                    direction: ('ltr' | 'rtl') | null;
+                    format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+                    indent: number;
+                    version: number;
+                  };
+                  [k: string]: unknown;
+                };
+                id?: string | null;
+                blockName?: string | null;
+                blockType: 'RichText';
               }
           )[];
           id?: string | null;
@@ -632,6 +887,7 @@ export interface LegalPost {
         blockType: 'RelatedPosts';
       }
     | {
+        smallLabel?: boolean | null;
         tabs: {
           title: string;
           content: (
@@ -705,6 +961,203 @@ export interface LegalPost {
                 id?: string | null;
                 blockName?: string | null;
                 blockType: 'TwoColumnsWithTtitles';
+              }
+            | {
+                title?: string | null;
+                desc?: string | null;
+                /**
+                 * Wybierz jedno lub więcej zdjęć z biblioteki mediów.
+                 */
+                images?: (number | Media)[] | null;
+                id?: string | null;
+                blockName?: string | null;
+                blockType: 'MediaTab';
+              }
+            | {
+                tabs: {
+                  title: string;
+                  icon?: (number | null) | Media;
+                  content: (
+                    | {
+                        title: string;
+                        font?: boolean | null;
+                        content: string;
+                        id?: string | null;
+                        blockName?: string | null;
+                        blockType: 'Header';
+                      }
+                    | {
+                        title: string;
+                        attachments?:
+                          | {
+                              fileName: string;
+                              file?: (number | null) | Media;
+                              id?: string | null;
+                            }[]
+                          | null;
+                        id?: string | null;
+                        blockName?: string | null;
+                        blockType: 'Attachments';
+                      }
+                    | {
+                        images?:
+                          | {
+                              image?: (number | null) | Media;
+                              id?: string | null;
+                            }[]
+                          | null;
+                        id?: string | null;
+                        blockName?: string | null;
+                        blockType: 'ImagesSlider';
+                      }
+                    | {
+                        title?: string | null;
+                        content: {
+                          root: {
+                            type: string;
+                            children: {
+                              type: any;
+                              version: number;
+                              [k: string]: unknown;
+                            }[];
+                            direction: ('ltr' | 'rtl') | null;
+                            format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+                            indent: number;
+                            version: number;
+                          };
+                          [k: string]: unknown;
+                        };
+                        highlighted?: boolean | null;
+                        title2?: string | null;
+                        content2: {
+                          root: {
+                            type: string;
+                            children: {
+                              type: any;
+                              version: number;
+                              [k: string]: unknown;
+                            }[];
+                            direction: ('ltr' | 'rtl') | null;
+                            format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+                            indent: number;
+                            version: number;
+                          };
+                          [k: string]: unknown;
+                        };
+                        highlighted2?: boolean | null;
+                        id?: string | null;
+                        blockName?: string | null;
+                        blockType: 'TwoColumnsWithTtitles';
+                      }
+                    | {
+                        title?: string | null;
+                        desc?: string | null;
+                        /**
+                         * Wybierz jedno lub więcej zdjęć z biblioteki mediów.
+                         */
+                        images?: (number | Media)[] | null;
+                        id?: string | null;
+                        blockName?: string | null;
+                        blockType: 'MediaTab';
+                      }
+                    | {
+                        image?: (number | null) | Media;
+                        id?: string | null;
+                        blockName?: string | null;
+                        blockType: 'ImageBlock';
+                      }
+                    | {
+                        content: {
+                          root: {
+                            type: string;
+                            children: {
+                              type: any;
+                              version: number;
+                              [k: string]: unknown;
+                            }[];
+                            direction: ('ltr' | 'rtl') | null;
+                            format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+                            indent: number;
+                            version: number;
+                          };
+                          [k: string]: unknown;
+                        };
+                        id?: string | null;
+                        blockName?: string | null;
+                        blockType: 'Highlighted';
+                      }
+                    | {
+                        content: {
+                          root: {
+                            type: string;
+                            children: {
+                              type: any;
+                              version: number;
+                              [k: string]: unknown;
+                            }[];
+                            direction: ('ltr' | 'rtl') | null;
+                            format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+                            indent: number;
+                            version: number;
+                          };
+                          [k: string]: unknown;
+                        };
+                        id?: string | null;
+                        blockName?: string | null;
+                        blockType: 'RichText';
+                      }
+                  )[];
+                  id?: string | null;
+                }[];
+                id?: string | null;
+                blockName?: string | null;
+                blockType: 'DropdownList';
+              }
+            | {
+                image?: (number | null) | Media;
+                id?: string | null;
+                blockName?: string | null;
+                blockType: 'ImageBlock';
+              }
+            | {
+                content: {
+                  root: {
+                    type: string;
+                    children: {
+                      type: any;
+                      version: number;
+                      [k: string]: unknown;
+                    }[];
+                    direction: ('ltr' | 'rtl') | null;
+                    format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+                    indent: number;
+                    version: number;
+                  };
+                  [k: string]: unknown;
+                };
+                id?: string | null;
+                blockName?: string | null;
+                blockType: 'Highlighted';
+              }
+            | {
+                content: {
+                  root: {
+                    type: string;
+                    children: {
+                      type: any;
+                      version: number;
+                      [k: string]: unknown;
+                    }[];
+                    direction: ('ltr' | 'rtl') | null;
+                    format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+                    indent: number;
+                    version: number;
+                  };
+                  [k: string]: unknown;
+                };
+                id?: string | null;
+                blockName?: string | null;
+                blockType: 'RichText';
               }
           )[];
           id?: string | null;
@@ -788,6 +1241,63 @@ export interface LegalPost {
                 id?: string | null;
                 blockName?: string | null;
                 blockType: 'TwoColumnsWithTtitles';
+              }
+            | {
+                title?: string | null;
+                desc?: string | null;
+                /**
+                 * Wybierz jedno lub więcej zdjęć z biblioteki mediów.
+                 */
+                images?: (number | Media)[] | null;
+                id?: string | null;
+                blockName?: string | null;
+                blockType: 'MediaTab';
+              }
+            | {
+                image?: (number | null) | Media;
+                id?: string | null;
+                blockName?: string | null;
+                blockType: 'ImageBlock';
+              }
+            | {
+                content: {
+                  root: {
+                    type: string;
+                    children: {
+                      type: any;
+                      version: number;
+                      [k: string]: unknown;
+                    }[];
+                    direction: ('ltr' | 'rtl') | null;
+                    format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+                    indent: number;
+                    version: number;
+                  };
+                  [k: string]: unknown;
+                };
+                id?: string | null;
+                blockName?: string | null;
+                blockType: 'Highlighted';
+              }
+            | {
+                content: {
+                  root: {
+                    type: string;
+                    children: {
+                      type: any;
+                      version: number;
+                      [k: string]: unknown;
+                    }[];
+                    direction: ('ltr' | 'rtl') | null;
+                    format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+                    indent: number;
+                    version: number;
+                  };
+                  [k: string]: unknown;
+                };
+                id?: string | null;
+                blockName?: string | null;
+                blockType: 'RichText';
               }
           )[];
           id?: string | null;
@@ -974,6 +1484,7 @@ export interface Theory {
         blockType: 'RelatedPosts';
       }
     | {
+        smallLabel?: boolean | null;
         tabs: {
           title: string;
           content: (
@@ -1047,6 +1558,203 @@ export interface Theory {
                 id?: string | null;
                 blockName?: string | null;
                 blockType: 'TwoColumnsWithTtitles';
+              }
+            | {
+                title?: string | null;
+                desc?: string | null;
+                /**
+                 * Wybierz jedno lub więcej zdjęć z biblioteki mediów.
+                 */
+                images?: (number | Media)[] | null;
+                id?: string | null;
+                blockName?: string | null;
+                blockType: 'MediaTab';
+              }
+            | {
+                tabs: {
+                  title: string;
+                  icon?: (number | null) | Media;
+                  content: (
+                    | {
+                        title: string;
+                        font?: boolean | null;
+                        content: string;
+                        id?: string | null;
+                        blockName?: string | null;
+                        blockType: 'Header';
+                      }
+                    | {
+                        title: string;
+                        attachments?:
+                          | {
+                              fileName: string;
+                              file?: (number | null) | Media;
+                              id?: string | null;
+                            }[]
+                          | null;
+                        id?: string | null;
+                        blockName?: string | null;
+                        blockType: 'Attachments';
+                      }
+                    | {
+                        images?:
+                          | {
+                              image?: (number | null) | Media;
+                              id?: string | null;
+                            }[]
+                          | null;
+                        id?: string | null;
+                        blockName?: string | null;
+                        blockType: 'ImagesSlider';
+                      }
+                    | {
+                        title?: string | null;
+                        content: {
+                          root: {
+                            type: string;
+                            children: {
+                              type: any;
+                              version: number;
+                              [k: string]: unknown;
+                            }[];
+                            direction: ('ltr' | 'rtl') | null;
+                            format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+                            indent: number;
+                            version: number;
+                          };
+                          [k: string]: unknown;
+                        };
+                        highlighted?: boolean | null;
+                        title2?: string | null;
+                        content2: {
+                          root: {
+                            type: string;
+                            children: {
+                              type: any;
+                              version: number;
+                              [k: string]: unknown;
+                            }[];
+                            direction: ('ltr' | 'rtl') | null;
+                            format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+                            indent: number;
+                            version: number;
+                          };
+                          [k: string]: unknown;
+                        };
+                        highlighted2?: boolean | null;
+                        id?: string | null;
+                        blockName?: string | null;
+                        blockType: 'TwoColumnsWithTtitles';
+                      }
+                    | {
+                        title?: string | null;
+                        desc?: string | null;
+                        /**
+                         * Wybierz jedno lub więcej zdjęć z biblioteki mediów.
+                         */
+                        images?: (number | Media)[] | null;
+                        id?: string | null;
+                        blockName?: string | null;
+                        blockType: 'MediaTab';
+                      }
+                    | {
+                        image?: (number | null) | Media;
+                        id?: string | null;
+                        blockName?: string | null;
+                        blockType: 'ImageBlock';
+                      }
+                    | {
+                        content: {
+                          root: {
+                            type: string;
+                            children: {
+                              type: any;
+                              version: number;
+                              [k: string]: unknown;
+                            }[];
+                            direction: ('ltr' | 'rtl') | null;
+                            format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+                            indent: number;
+                            version: number;
+                          };
+                          [k: string]: unknown;
+                        };
+                        id?: string | null;
+                        blockName?: string | null;
+                        blockType: 'Highlighted';
+                      }
+                    | {
+                        content: {
+                          root: {
+                            type: string;
+                            children: {
+                              type: any;
+                              version: number;
+                              [k: string]: unknown;
+                            }[];
+                            direction: ('ltr' | 'rtl') | null;
+                            format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+                            indent: number;
+                            version: number;
+                          };
+                          [k: string]: unknown;
+                        };
+                        id?: string | null;
+                        blockName?: string | null;
+                        blockType: 'RichText';
+                      }
+                  )[];
+                  id?: string | null;
+                }[];
+                id?: string | null;
+                blockName?: string | null;
+                blockType: 'DropdownList';
+              }
+            | {
+                image?: (number | null) | Media;
+                id?: string | null;
+                blockName?: string | null;
+                blockType: 'ImageBlock';
+              }
+            | {
+                content: {
+                  root: {
+                    type: string;
+                    children: {
+                      type: any;
+                      version: number;
+                      [k: string]: unknown;
+                    }[];
+                    direction: ('ltr' | 'rtl') | null;
+                    format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+                    indent: number;
+                    version: number;
+                  };
+                  [k: string]: unknown;
+                };
+                id?: string | null;
+                blockName?: string | null;
+                blockType: 'Highlighted';
+              }
+            | {
+                content: {
+                  root: {
+                    type: string;
+                    children: {
+                      type: any;
+                      version: number;
+                      [k: string]: unknown;
+                    }[];
+                    direction: ('ltr' | 'rtl') | null;
+                    format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+                    indent: number;
+                    version: number;
+                  };
+                  [k: string]: unknown;
+                };
+                id?: string | null;
+                blockName?: string | null;
+                blockType: 'RichText';
               }
           )[];
           id?: string | null;
@@ -1130,6 +1838,63 @@ export interface Theory {
                 id?: string | null;
                 blockName?: string | null;
                 blockType: 'TwoColumnsWithTtitles';
+              }
+            | {
+                title?: string | null;
+                desc?: string | null;
+                /**
+                 * Wybierz jedno lub więcej zdjęć z biblioteki mediów.
+                 */
+                images?: (number | Media)[] | null;
+                id?: string | null;
+                blockName?: string | null;
+                blockType: 'MediaTab';
+              }
+            | {
+                image?: (number | null) | Media;
+                id?: string | null;
+                blockName?: string | null;
+                blockType: 'ImageBlock';
+              }
+            | {
+                content: {
+                  root: {
+                    type: string;
+                    children: {
+                      type: any;
+                      version: number;
+                      [k: string]: unknown;
+                    }[];
+                    direction: ('ltr' | 'rtl') | null;
+                    format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+                    indent: number;
+                    version: number;
+                  };
+                  [k: string]: unknown;
+                };
+                id?: string | null;
+                blockName?: string | null;
+                blockType: 'Highlighted';
+              }
+            | {
+                content: {
+                  root: {
+                    type: string;
+                    children: {
+                      type: any;
+                      version: number;
+                      [k: string]: unknown;
+                    }[];
+                    direction: ('ltr' | 'rtl') | null;
+                    format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+                    indent: number;
+                    version: number;
+                  };
+                  [k: string]: unknown;
+                };
+                id?: string | null;
+                blockName?: string | null;
+                blockType: 'RichText';
               }
           )[];
           id?: string | null;
@@ -1456,6 +2221,7 @@ export interface ProceduresSelect<T extends boolean = true> {
         Tabs?:
           | T
           | {
+              smallLabel?: T;
               tabs?:
                 | T
                 | {
@@ -1507,6 +2273,130 @@ export interface ProceduresSelect<T extends boolean = true> {
                                 title2?: T;
                                 content2?: T;
                                 highlighted2?: T;
+                                id?: T;
+                                blockName?: T;
+                              };
+                          MediaTab?:
+                            | T
+                            | {
+                                title?: T;
+                                desc?: T;
+                                images?: T;
+                                id?: T;
+                                blockName?: T;
+                              };
+                          DropdownList?:
+                            | T
+                            | {
+                                tabs?:
+                                  | T
+                                  | {
+                                      title?: T;
+                                      icon?: T;
+                                      content?:
+                                        | T
+                                        | {
+                                            Header?:
+                                              | T
+                                              | {
+                                                  title?: T;
+                                                  font?: T;
+                                                  content?: T;
+                                                  id?: T;
+                                                  blockName?: T;
+                                                };
+                                            Attachments?:
+                                              | T
+                                              | {
+                                                  title?: T;
+                                                  attachments?:
+                                                    | T
+                                                    | {
+                                                        fileName?: T;
+                                                        file?: T;
+                                                        id?: T;
+                                                      };
+                                                  id?: T;
+                                                  blockName?: T;
+                                                };
+                                            ImagesSlider?:
+                                              | T
+                                              | {
+                                                  images?:
+                                                    | T
+                                                    | {
+                                                        image?: T;
+                                                        id?: T;
+                                                      };
+                                                  id?: T;
+                                                  blockName?: T;
+                                                };
+                                            TwoColumnsWithTtitles?:
+                                              | T
+                                              | {
+                                                  title?: T;
+                                                  content?: T;
+                                                  highlighted?: T;
+                                                  title2?: T;
+                                                  content2?: T;
+                                                  highlighted2?: T;
+                                                  id?: T;
+                                                  blockName?: T;
+                                                };
+                                            MediaTab?:
+                                              | T
+                                              | {
+                                                  title?: T;
+                                                  desc?: T;
+                                                  images?: T;
+                                                  id?: T;
+                                                  blockName?: T;
+                                                };
+                                            ImageBlock?:
+                                              | T
+                                              | {
+                                                  image?: T;
+                                                  id?: T;
+                                                  blockName?: T;
+                                                };
+                                            Highlighted?:
+                                              | T
+                                              | {
+                                                  content?: T;
+                                                  id?: T;
+                                                  blockName?: T;
+                                                };
+                                            RichText?:
+                                              | T
+                                              | {
+                                                  content?: T;
+                                                  id?: T;
+                                                  blockName?: T;
+                                                };
+                                          };
+                                      id?: T;
+                                    };
+                                id?: T;
+                                blockName?: T;
+                              };
+                          ImageBlock?:
+                            | T
+                            | {
+                                image?: T;
+                                id?: T;
+                                blockName?: T;
+                              };
+                          Highlighted?:
+                            | T
+                            | {
+                                content?: T;
+                                id?: T;
+                                blockName?: T;
+                              };
+                          RichText?:
+                            | T
+                            | {
+                                content?: T;
                                 id?: T;
                                 blockName?: T;
                               };
@@ -1571,6 +2461,36 @@ export interface ProceduresSelect<T extends boolean = true> {
                                 title2?: T;
                                 content2?: T;
                                 highlighted2?: T;
+                                id?: T;
+                                blockName?: T;
+                              };
+                          MediaTab?:
+                            | T
+                            | {
+                                title?: T;
+                                desc?: T;
+                                images?: T;
+                                id?: T;
+                                blockName?: T;
+                              };
+                          ImageBlock?:
+                            | T
+                            | {
+                                image?: T;
+                                id?: T;
+                                blockName?: T;
+                              };
+                          Highlighted?:
+                            | T
+                            | {
+                                content?: T;
+                                id?: T;
+                                blockName?: T;
+                              };
+                          RichText?:
+                            | T
+                            | {
+                                content?: T;
                                 id?: T;
                                 blockName?: T;
                               };
@@ -1713,6 +2633,7 @@ export interface LegalPostsSelect<T extends boolean = true> {
         Tabs?:
           | T
           | {
+              smallLabel?: T;
               tabs?:
                 | T
                 | {
@@ -1764,6 +2685,130 @@ export interface LegalPostsSelect<T extends boolean = true> {
                                 title2?: T;
                                 content2?: T;
                                 highlighted2?: T;
+                                id?: T;
+                                blockName?: T;
+                              };
+                          MediaTab?:
+                            | T
+                            | {
+                                title?: T;
+                                desc?: T;
+                                images?: T;
+                                id?: T;
+                                blockName?: T;
+                              };
+                          DropdownList?:
+                            | T
+                            | {
+                                tabs?:
+                                  | T
+                                  | {
+                                      title?: T;
+                                      icon?: T;
+                                      content?:
+                                        | T
+                                        | {
+                                            Header?:
+                                              | T
+                                              | {
+                                                  title?: T;
+                                                  font?: T;
+                                                  content?: T;
+                                                  id?: T;
+                                                  blockName?: T;
+                                                };
+                                            Attachments?:
+                                              | T
+                                              | {
+                                                  title?: T;
+                                                  attachments?:
+                                                    | T
+                                                    | {
+                                                        fileName?: T;
+                                                        file?: T;
+                                                        id?: T;
+                                                      };
+                                                  id?: T;
+                                                  blockName?: T;
+                                                };
+                                            ImagesSlider?:
+                                              | T
+                                              | {
+                                                  images?:
+                                                    | T
+                                                    | {
+                                                        image?: T;
+                                                        id?: T;
+                                                      };
+                                                  id?: T;
+                                                  blockName?: T;
+                                                };
+                                            TwoColumnsWithTtitles?:
+                                              | T
+                                              | {
+                                                  title?: T;
+                                                  content?: T;
+                                                  highlighted?: T;
+                                                  title2?: T;
+                                                  content2?: T;
+                                                  highlighted2?: T;
+                                                  id?: T;
+                                                  blockName?: T;
+                                                };
+                                            MediaTab?:
+                                              | T
+                                              | {
+                                                  title?: T;
+                                                  desc?: T;
+                                                  images?: T;
+                                                  id?: T;
+                                                  blockName?: T;
+                                                };
+                                            ImageBlock?:
+                                              | T
+                                              | {
+                                                  image?: T;
+                                                  id?: T;
+                                                  blockName?: T;
+                                                };
+                                            Highlighted?:
+                                              | T
+                                              | {
+                                                  content?: T;
+                                                  id?: T;
+                                                  blockName?: T;
+                                                };
+                                            RichText?:
+                                              | T
+                                              | {
+                                                  content?: T;
+                                                  id?: T;
+                                                  blockName?: T;
+                                                };
+                                          };
+                                      id?: T;
+                                    };
+                                id?: T;
+                                blockName?: T;
+                              };
+                          ImageBlock?:
+                            | T
+                            | {
+                                image?: T;
+                                id?: T;
+                                blockName?: T;
+                              };
+                          Highlighted?:
+                            | T
+                            | {
+                                content?: T;
+                                id?: T;
+                                blockName?: T;
+                              };
+                          RichText?:
+                            | T
+                            | {
+                                content?: T;
                                 id?: T;
                                 blockName?: T;
                               };
@@ -1828,6 +2873,36 @@ export interface LegalPostsSelect<T extends boolean = true> {
                                 title2?: T;
                                 content2?: T;
                                 highlighted2?: T;
+                                id?: T;
+                                blockName?: T;
+                              };
+                          MediaTab?:
+                            | T
+                            | {
+                                title?: T;
+                                desc?: T;
+                                images?: T;
+                                id?: T;
+                                blockName?: T;
+                              };
+                          ImageBlock?:
+                            | T
+                            | {
+                                image?: T;
+                                id?: T;
+                                blockName?: T;
+                              };
+                          Highlighted?:
+                            | T
+                            | {
+                                content?: T;
+                                id?: T;
+                                blockName?: T;
+                              };
+                          RichText?:
+                            | T
+                            | {
+                                content?: T;
                                 id?: T;
                                 blockName?: T;
                               };
@@ -2009,6 +3084,7 @@ export interface TheoriesSelect<T extends boolean = true> {
         Tabs?:
           | T
           | {
+              smallLabel?: T;
               tabs?:
                 | T
                 | {
@@ -2060,6 +3136,130 @@ export interface TheoriesSelect<T extends boolean = true> {
                                 title2?: T;
                                 content2?: T;
                                 highlighted2?: T;
+                                id?: T;
+                                blockName?: T;
+                              };
+                          MediaTab?:
+                            | T
+                            | {
+                                title?: T;
+                                desc?: T;
+                                images?: T;
+                                id?: T;
+                                blockName?: T;
+                              };
+                          DropdownList?:
+                            | T
+                            | {
+                                tabs?:
+                                  | T
+                                  | {
+                                      title?: T;
+                                      icon?: T;
+                                      content?:
+                                        | T
+                                        | {
+                                            Header?:
+                                              | T
+                                              | {
+                                                  title?: T;
+                                                  font?: T;
+                                                  content?: T;
+                                                  id?: T;
+                                                  blockName?: T;
+                                                };
+                                            Attachments?:
+                                              | T
+                                              | {
+                                                  title?: T;
+                                                  attachments?:
+                                                    | T
+                                                    | {
+                                                        fileName?: T;
+                                                        file?: T;
+                                                        id?: T;
+                                                      };
+                                                  id?: T;
+                                                  blockName?: T;
+                                                };
+                                            ImagesSlider?:
+                                              | T
+                                              | {
+                                                  images?:
+                                                    | T
+                                                    | {
+                                                        image?: T;
+                                                        id?: T;
+                                                      };
+                                                  id?: T;
+                                                  blockName?: T;
+                                                };
+                                            TwoColumnsWithTtitles?:
+                                              | T
+                                              | {
+                                                  title?: T;
+                                                  content?: T;
+                                                  highlighted?: T;
+                                                  title2?: T;
+                                                  content2?: T;
+                                                  highlighted2?: T;
+                                                  id?: T;
+                                                  blockName?: T;
+                                                };
+                                            MediaTab?:
+                                              | T
+                                              | {
+                                                  title?: T;
+                                                  desc?: T;
+                                                  images?: T;
+                                                  id?: T;
+                                                  blockName?: T;
+                                                };
+                                            ImageBlock?:
+                                              | T
+                                              | {
+                                                  image?: T;
+                                                  id?: T;
+                                                  blockName?: T;
+                                                };
+                                            Highlighted?:
+                                              | T
+                                              | {
+                                                  content?: T;
+                                                  id?: T;
+                                                  blockName?: T;
+                                                };
+                                            RichText?:
+                                              | T
+                                              | {
+                                                  content?: T;
+                                                  id?: T;
+                                                  blockName?: T;
+                                                };
+                                          };
+                                      id?: T;
+                                    };
+                                id?: T;
+                                blockName?: T;
+                              };
+                          ImageBlock?:
+                            | T
+                            | {
+                                image?: T;
+                                id?: T;
+                                blockName?: T;
+                              };
+                          Highlighted?:
+                            | T
+                            | {
+                                content?: T;
+                                id?: T;
+                                blockName?: T;
+                              };
+                          RichText?:
+                            | T
+                            | {
+                                content?: T;
                                 id?: T;
                                 blockName?: T;
                               };
@@ -2124,6 +3324,36 @@ export interface TheoriesSelect<T extends boolean = true> {
                                 title2?: T;
                                 content2?: T;
                                 highlighted2?: T;
+                                id?: T;
+                                blockName?: T;
+                              };
+                          MediaTab?:
+                            | T
+                            | {
+                                title?: T;
+                                desc?: T;
+                                images?: T;
+                                id?: T;
+                                blockName?: T;
+                              };
+                          ImageBlock?:
+                            | T
+                            | {
+                                image?: T;
+                                id?: T;
+                                blockName?: T;
+                              };
+                          Highlighted?:
+                            | T
+                            | {
+                                content?: T;
+                                id?: T;
+                                blockName?: T;
+                              };
+                          RichText?:
+                            | T
+                            | {
+                                content?: T;
                                 id?: T;
                                 blockName?: T;
                               };
