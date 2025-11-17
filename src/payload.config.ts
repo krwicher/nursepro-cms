@@ -99,11 +99,6 @@ export default buildConfig({
           required: true,
         },
         {
-          name: 'phone',
-          label: 'Phone Number',
-          type: 'text',
-        },
-        {
           name: 'socialLinks',
           label: 'Social Links',
           type: 'group',

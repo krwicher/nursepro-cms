@@ -3461,7 +3461,6 @@ export interface PayloadMigrationsSelect<T extends boolean = true> {
 export interface SiteSetting {
   id: number;
   email: string;
-  phone?: string | null;
   socialLinks?: {
     facebook?: string | null;
     instagram?: string | null;
@@ -3475,7 +3474,6 @@ export interface SiteSetting {
  */
 export interface SiteSettingsSelect<T extends boolean = true> {
   email?: T;
-  phone?: T;
   socialLinks?:
     | T
     | {
