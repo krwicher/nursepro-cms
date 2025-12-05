@@ -17,6 +17,10 @@ export const Messages: CollectionConfig = {
       return req.headers.get('x-internal-token') === process.env.PAYLOAD_API_KEY
       return false
     },
-    create: () => true,
+    create: ({ req }) => {
+      if (req?.user) return true
+      return req.headers.get('x-internal-token') === process.env.PAYLOAD_API_KEY
+      return false
+    },
   },
 }
