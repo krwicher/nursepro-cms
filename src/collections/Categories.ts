@@ -11,7 +11,11 @@ export const Categories: CollectionConfig = {
     useAsTitle: 'name',
   },
   access: {
-    read: () => true,
+    read: ({ req }) => {
+      if (req?.user) return true
+      return req.headers.get('x-internal-token') === process.env.PAYLOAD_API_KEY
+      return false
+    },
   },
   fields: [
     {

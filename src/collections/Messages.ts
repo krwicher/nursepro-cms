@@ -12,7 +12,11 @@ export const Messages: CollectionConfig = {
     { name: 'message', type: 'textarea', required: true },
   ],
   access: {
+    read: ({ req }) => {
+      if (req?.user) return true
+      return req.headers.get('x-internal-token') === process.env.PAYLOAD_API_KEY
+      return false
+    },
     create: () => true,
-    read: () => true,
   },
 }

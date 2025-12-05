@@ -8,7 +8,11 @@ const Theories: CollectionConfig = {
   labels: { singular: 'Teoria', plural: 'Teorie' },
   admin: { useAsTitle: 'title' },
   access: {
-    read: () => true,
+    read: ({ req }) => {
+      if (req?.user) return true
+      return req.headers.get('x-internal-token') === process.env.PAYLOAD_API_KEY
+      return false
+    },
   },
   fields: [
     { name: 'title', label: 'Tytuł', type: 'text', required: true },

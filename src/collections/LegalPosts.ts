@@ -8,10 +8,11 @@ const LegalPosts: CollectionConfig = {
   labels: { singular: 'Prawny artykuł', plural: 'Prawne artykuły' },
   admin: { useAsTitle: 'title' },
   access: {
-    read: () => true,
-    create: () => true,
-    update: () => true,
-    delete: () => true,
+    read: ({ req }) => {
+      if (req?.user) return true
+      return req.headers.get('x-internal-token') === process.env.PAYLOAD_API_KEY
+      return false
+    },
   },
   fields: [
     { name: 'title', label: 'Tytuł', type: 'text', required: true },
