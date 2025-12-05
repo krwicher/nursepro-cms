@@ -1,6 +1,6 @@
 {
   "name": "nursepro-cms",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A blank template to get started with Payload 3.0",
   "license": "MIT",
   "type": "module",
@@ -21,7 +21,8 @@
     "@payloadcms/db-postgres": "3.59.1",
     "@payloadcms/next": "3.59.1",
     "@payloadcms/payload-cloud": "3.59.1",
-    "@payloadcms/richtext-lexical": "^3.59.1",
+    "@payloadcms/richtext-lexical": "3.59.1",
+    "@payloadcms/storage-vercel-blob": "3.59.1",
     "@payloadcms/ui": "3.59.1",
     "cross-env": "^7.0.3",
     "dotenv": "16.4.7",
