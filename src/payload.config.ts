@@ -16,6 +16,7 @@ import { Quizzes } from './collections/Quizzes'
 import { Categories } from './collections/Categories'
 import Theories from './collections/Theories'
 import { Messages } from './collections/Messages'
+import Tools from './collections/Tools'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -29,7 +30,17 @@ export default buildConfig({
       baseDir: path.resolve(dirname),
     },
   },
-  collections: [Users, Media, Procedures, LegalPosts, Quizzes, Categories, Theories, Messages],
+  collections: [
+    Users,
+    Media,
+    Procedures,
+    LegalPosts,
+    Quizzes,
+    Categories,
+    Theories,
+    Messages,
+    Tools,
+  ],
   endpoints: [
     {
       path: '/search',

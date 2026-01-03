@@ -75,6 +75,7 @@ export interface Config {
     categories: Category;
     theories: Theory;
     messages: Message;
+    tools: Tool;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
@@ -89,6 +90,7 @@ export interface Config {
     categories: CategoriesSelect<false> | CategoriesSelect<true>;
     theories: TheoriesSelect<false> | TheoriesSelect<true>;
     messages: MessagesSelect<false> | MessagesSelect<true>;
+    tools: ToolsSelect<false> | ToolsSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
     'payload-migrations': PayloadMigrationsSelect<false> | PayloadMigrationsSelect<true>;
@@ -2019,6 +2021,603 @@ export interface Message {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "tools".
+ */
+export interface Tool {
+  id: number;
+  title: string;
+  slug?: string | null;
+  subtitle?: string | null;
+  estimation?: string | null;
+  zajawka?: string | null;
+  zdjecie?: (number | null) | Media;
+  content: (
+    | {
+        title: string;
+        font?: boolean | null;
+        content: string;
+        id?: string | null;
+        blockName?: string | null;
+        blockType: 'Header';
+      }
+    | {
+        title: string;
+        attachments?:
+          | {
+              fileName: string;
+              file?: (number | null) | Media;
+              id?: string | null;
+            }[]
+          | null;
+        id?: string | null;
+        blockName?: string | null;
+        blockType: 'Attachments';
+      }
+    | {
+        images?:
+          | {
+              image?: (number | null) | Media;
+              id?: string | null;
+            }[]
+          | null;
+        id?: string | null;
+        blockName?: string | null;
+        blockType: 'ImagesSlider';
+      }
+    | {
+        post: number | Quiz;
+        id?: string | null;
+        blockName?: string | null;
+        blockType: 'QuizEncouragment';
+      }
+    | {
+        title: string;
+        references?:
+          | {
+              reference?: string | null;
+              id?: string | null;
+            }[]
+          | null;
+        id?: string | null;
+        blockName?: string | null;
+        blockType: 'References';
+      }
+    | {
+        title?: string | null;
+        realtedPosts?:
+          | {
+              procedure?: (number | null) | Procedure;
+              id?: string | null;
+            }[]
+          | null;
+        id?: string | null;
+        blockName?: string | null;
+        blockType: 'RelatedPosts';
+      }
+    | {
+        smallLabel?: boolean | null;
+        tabs: {
+          title: string;
+          content: (
+            | {
+                title: string;
+                font?: boolean | null;
+                content: string;
+                id?: string | null;
+                blockName?: string | null;
+                blockType: 'Header';
+              }
+            | {
+                title: string;
+                attachments?:
+                  | {
+                      fileName: string;
+                      file?: (number | null) | Media;
+                      id?: string | null;
+                    }[]
+                  | null;
+                id?: string | null;
+                blockName?: string | null;
+                blockType: 'Attachments';
+              }
+            | {
+                images?:
+                  | {
+                      image?: (number | null) | Media;
+                      id?: string | null;
+                    }[]
+                  | null;
+                id?: string | null;
+                blockName?: string | null;
+                blockType: 'ImagesSlider';
+              }
+            | {
+                title?: string | null;
+                content: {
+                  root: {
+                    type: string;
+                    children: {
+                      type: any;
+                      version: number;
+                      [k: string]: unknown;
+                    }[];
+                    direction: ('ltr' | 'rtl') | null;
+                    format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+                    indent: number;
+                    version: number;
+                  };
+                  [k: string]: unknown;
+                };
+                highlighted?: boolean | null;
+                title2?: string | null;
+                content2: {
+                  root: {
+                    type: string;
+                    children: {
+                      type: any;
+                      version: number;
+                      [k: string]: unknown;
+                    }[];
+                    direction: ('ltr' | 'rtl') | null;
+                    format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+                    indent: number;
+                    version: number;
+                  };
+                  [k: string]: unknown;
+                };
+                highlighted2?: boolean | null;
+                id?: string | null;
+                blockName?: string | null;
+                blockType: 'TwoColumnsWithTtitles';
+              }
+            | {
+                title?: string | null;
+                desc?: string | null;
+                /**
+                 * Wybierz jedno lub więcej zdjęć z biblioteki mediów.
+                 */
+                images?: (number | Media)[] | null;
+                id?: string | null;
+                blockName?: string | null;
+                blockType: 'MediaTab';
+              }
+            | {
+                tabs: {
+                  title: string;
+                  icon?: (number | null) | Media;
+                  content: (
+                    | {
+                        title: string;
+                        font?: boolean | null;
+                        content: string;
+                        id?: string | null;
+                        blockName?: string | null;
+                        blockType: 'Header';
+                      }
+                    | {
+                        title: string;
+                        attachments?:
+                          | {
+                              fileName: string;
+                              file?: (number | null) | Media;
+                              id?: string | null;
+                            }[]
+                          | null;
+                        id?: string | null;
+                        blockName?: string | null;
+                        blockType: 'Attachments';
+                      }
+                    | {
+                        images?:
+                          | {
+                              image?: (number | null) | Media;
+                              id?: string | null;
+                            }[]
+                          | null;
+                        id?: string | null;
+                        blockName?: string | null;
+                        blockType: 'ImagesSlider';
+                      }
+                    | {
+                        title?: string | null;
+                        content: {
+                          root: {
+                            type: string;
+                            children: {
+                              type: any;
+                              version: number;
+                              [k: string]: unknown;
+                            }[];
+                            direction: ('ltr' | 'rtl') | null;
+                            format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+                            indent: number;
+                            version: number;
+                          };
+                          [k: string]: unknown;
+                        };
+                        highlighted?: boolean | null;
+                        title2?: string | null;
+                        content2: {
+                          root: {
+                            type: string;
+                            children: {
+                              type: any;
+                              version: number;
+                              [k: string]: unknown;
+                            }[];
+                            direction: ('ltr' | 'rtl') | null;
+                            format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+                            indent: number;
+                            version: number;
+                          };
+                          [k: string]: unknown;
+                        };
+                        highlighted2?: boolean | null;
+                        id?: string | null;
+                        blockName?: string | null;
+                        blockType: 'TwoColumnsWithTtitles';
+                      }
+                    | {
+                        title?: string | null;
+                        desc?: string | null;
+                        /**
+                         * Wybierz jedno lub więcej zdjęć z biblioteki mediów.
+                         */
+                        images?: (number | Media)[] | null;
+                        id?: string | null;
+                        blockName?: string | null;
+                        blockType: 'MediaTab';
+                      }
+                    | {
+                        image?: (number | null) | Media;
+                        id?: string | null;
+                        blockName?: string | null;
+                        blockType: 'ImageBlock';
+                      }
+                    | {
+                        content: {
+                          root: {
+                            type: string;
+                            children: {
+                              type: any;
+                              version: number;
+                              [k: string]: unknown;
+                            }[];
+                            direction: ('ltr' | 'rtl') | null;
+                            format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+                            indent: number;
+                            version: number;
+                          };
+                          [k: string]: unknown;
+                        };
+                        id?: string | null;
+                        blockName?: string | null;
+                        blockType: 'Highlighted';
+                      }
+                    | {
+                        content: {
+                          root: {
+                            type: string;
+                            children: {
+                              type: any;
+                              version: number;
+                              [k: string]: unknown;
+                            }[];
+                            direction: ('ltr' | 'rtl') | null;
+                            format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+                            indent: number;
+                            version: number;
+                          };
+                          [k: string]: unknown;
+                        };
+                        id?: string | null;
+                        blockName?: string | null;
+                        blockType: 'RichText';
+                      }
+                  )[];
+                  id?: string | null;
+                }[];
+                id?: string | null;
+                blockName?: string | null;
+                blockType: 'DropdownList';
+              }
+            | {
+                image?: (number | null) | Media;
+                id?: string | null;
+                blockName?: string | null;
+                blockType: 'ImageBlock';
+              }
+            | {
+                content: {
+                  root: {
+                    type: string;
+                    children: {
+                      type: any;
+                      version: number;
+                      [k: string]: unknown;
+                    }[];
+                    direction: ('ltr' | 'rtl') | null;
+                    format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+                    indent: number;
+                    version: number;
+                  };
+                  [k: string]: unknown;
+                };
+                id?: string | null;
+                blockName?: string | null;
+                blockType: 'Highlighted';
+              }
+            | {
+                content: {
+                  root: {
+                    type: string;
+                    children: {
+                      type: any;
+                      version: number;
+                      [k: string]: unknown;
+                    }[];
+                    direction: ('ltr' | 'rtl') | null;
+                    format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+                    indent: number;
+                    version: number;
+                  };
+                  [k: string]: unknown;
+                };
+                id?: string | null;
+                blockName?: string | null;
+                blockType: 'RichText';
+              }
+          )[];
+          id?: string | null;
+        }[];
+        id?: string | null;
+        blockName?: string | null;
+        blockType: 'Tabs';
+      }
+    | {
+        tabs: {
+          title: string;
+          icon?: (number | null) | Media;
+          content: (
+            | {
+                title: string;
+                font?: boolean | null;
+                content: string;
+                id?: string | null;
+                blockName?: string | null;
+                blockType: 'Header';
+              }
+            | {
+                title: string;
+                attachments?:
+                  | {
+                      fileName: string;
+                      file?: (number | null) | Media;
+                      id?: string | null;
+                    }[]
+                  | null;
+                id?: string | null;
+                blockName?: string | null;
+                blockType: 'Attachments';
+              }
+            | {
+                images?:
+                  | {
+                      image?: (number | null) | Media;
+                      id?: string | null;
+                    }[]
+                  | null;
+                id?: string | null;
+                blockName?: string | null;
+                blockType: 'ImagesSlider';
+              }
+            | {
+                title?: string | null;
+                content: {
+                  root: {
+                    type: string;
+                    children: {
+                      type: any;
+                      version: number;
+                      [k: string]: unknown;
+                    }[];
+                    direction: ('ltr' | 'rtl') | null;
+                    format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+                    indent: number;
+                    version: number;
+                  };
+                  [k: string]: unknown;
+                };
+                highlighted?: boolean | null;
+                title2?: string | null;
+                content2: {
+                  root: {
+                    type: string;
+                    children: {
+                      type: any;
+                      version: number;
+                      [k: string]: unknown;
+                    }[];
+                    direction: ('ltr' | 'rtl') | null;
+                    format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+                    indent: number;
+                    version: number;
+                  };
+                  [k: string]: unknown;
+                };
+                highlighted2?: boolean | null;
+                id?: string | null;
+                blockName?: string | null;
+                blockType: 'TwoColumnsWithTtitles';
+              }
+            | {
+                title?: string | null;
+                desc?: string | null;
+                /**
+                 * Wybierz jedno lub więcej zdjęć z biblioteki mediów.
+                 */
+                images?: (number | Media)[] | null;
+                id?: string | null;
+                blockName?: string | null;
+                blockType: 'MediaTab';
+              }
+            | {
+                image?: (number | null) | Media;
+                id?: string | null;
+                blockName?: string | null;
+                blockType: 'ImageBlock';
+              }
+            | {
+                content: {
+                  root: {
+                    type: string;
+                    children: {
+                      type: any;
+                      version: number;
+                      [k: string]: unknown;
+                    }[];
+                    direction: ('ltr' | 'rtl') | null;
+                    format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+                    indent: number;
+                    version: number;
+                  };
+                  [k: string]: unknown;
+                };
+                id?: string | null;
+                blockName?: string | null;
+                blockType: 'Highlighted';
+              }
+            | {
+                content: {
+                  root: {
+                    type: string;
+                    children: {
+                      type: any;
+                      version: number;
+                      [k: string]: unknown;
+                    }[];
+                    direction: ('ltr' | 'rtl') | null;
+                    format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+                    indent: number;
+                    version: number;
+                  };
+                  [k: string]: unknown;
+                };
+                id?: string | null;
+                blockName?: string | null;
+                blockType: 'RichText';
+              }
+          )[];
+          id?: string | null;
+        }[];
+        id?: string | null;
+        blockName?: string | null;
+        blockType: 'DropdownList';
+      }
+    | {
+        content: {
+          root: {
+            type: string;
+            children: {
+              type: any;
+              version: number;
+              [k: string]: unknown;
+            }[];
+            direction: ('ltr' | 'rtl') | null;
+            format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+            indent: number;
+            version: number;
+          };
+          [k: string]: unknown;
+        };
+        id?: string | null;
+        blockName?: string | null;
+        blockType: 'RichText';
+      }
+    | {
+        title?: string | null;
+        content: {
+          root: {
+            type: string;
+            children: {
+              type: any;
+              version: number;
+              [k: string]: unknown;
+            }[];
+            direction: ('ltr' | 'rtl') | null;
+            format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+            indent: number;
+            version: number;
+          };
+          [k: string]: unknown;
+        };
+        highlighted?: boolean | null;
+        title2?: string | null;
+        content2: {
+          root: {
+            type: string;
+            children: {
+              type: any;
+              version: number;
+              [k: string]: unknown;
+            }[];
+            direction: ('ltr' | 'rtl') | null;
+            format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+            indent: number;
+            version: number;
+          };
+          [k: string]: unknown;
+        };
+        highlighted2?: boolean | null;
+        id?: string | null;
+        blockName?: string | null;
+        blockType: 'TwoColumnsWithTtitles';
+      }
+    | {
+        title?: string | null;
+        desc?: string | null;
+        /**
+         * Wybierz jedno lub więcej zdjęć z biblioteki mediów.
+         */
+        images?: (number | Media)[] | null;
+        id?: string | null;
+        blockName?: string | null;
+        blockType: 'MediaTab';
+      }
+    | {
+        image?: (number | null) | Media;
+        id?: string | null;
+        blockName?: string | null;
+        blockType: 'ImageBlock';
+      }
+    | {
+        content: {
+          root: {
+            type: string;
+            children: {
+              type: any;
+              version: number;
+              [k: string]: unknown;
+            }[];
+            direction: ('ltr' | 'rtl') | null;
+            format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+            indent: number;
+            version: number;
+          };
+          [k: string]: unknown;
+        };
+        id?: string | null;
+        blockName?: string | null;
+        blockType: 'Highlighted';
+      }
+  )[];
+  category?: (number | null) | Category;
+  published?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-locked-documents".
  */
 export interface PayloadLockedDocument {
@@ -2055,6 +2654,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'messages';
         value: number | Message;
+      } | null)
+    | ({
+        relationTo: 'tools';
+        value: number | Tool;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -3419,6 +4022,418 @@ export interface MessagesSelect<T extends boolean = true> {
   name?: T;
   email?: T;
   message?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "tools_select".
+ */
+export interface ToolsSelect<T extends boolean = true> {
+  title?: T;
+  slug?: T;
+  subtitle?: T;
+  estimation?: T;
+  zajawka?: T;
+  zdjecie?: T;
+  content?:
+    | T
+    | {
+        Header?:
+          | T
+          | {
+              title?: T;
+              font?: T;
+              content?: T;
+              id?: T;
+              blockName?: T;
+            };
+        Attachments?:
+          | T
+          | {
+              title?: T;
+              attachments?:
+                | T
+                | {
+                    fileName?: T;
+                    file?: T;
+                    id?: T;
+                  };
+              id?: T;
+              blockName?: T;
+            };
+        ImagesSlider?:
+          | T
+          | {
+              images?:
+                | T
+                | {
+                    image?: T;
+                    id?: T;
+                  };
+              id?: T;
+              blockName?: T;
+            };
+        QuizEncouragment?:
+          | T
+          | {
+              post?: T;
+              id?: T;
+              blockName?: T;
+            };
+        References?:
+          | T
+          | {
+              title?: T;
+              references?:
+                | T
+                | {
+                    reference?: T;
+                    id?: T;
+                  };
+              id?: T;
+              blockName?: T;
+            };
+        RelatedPosts?:
+          | T
+          | {
+              title?: T;
+              realtedPosts?:
+                | T
+                | {
+                    procedure?: T;
+                    id?: T;
+                  };
+              id?: T;
+              blockName?: T;
+            };
+        Tabs?:
+          | T
+          | {
+              smallLabel?: T;
+              tabs?:
+                | T
+                | {
+                    title?: T;
+                    content?:
+                      | T
+                      | {
+                          Header?:
+                            | T
+                            | {
+                                title?: T;
+                                font?: T;
+                                content?: T;
+                                id?: T;
+                                blockName?: T;
+                              };
+                          Attachments?:
+                            | T
+                            | {
+                                title?: T;
+                                attachments?:
+                                  | T
+                                  | {
+                                      fileName?: T;
+                                      file?: T;
+                                      id?: T;
+                                    };
+                                id?: T;
+                                blockName?: T;
+                              };
+                          ImagesSlider?:
+                            | T
+                            | {
+                                images?:
+                                  | T
+                                  | {
+                                      image?: T;
+                                      id?: T;
+                                    };
+                                id?: T;
+                                blockName?: T;
+                              };
+                          TwoColumnsWithTtitles?:
+                            | T
+                            | {
+                                title?: T;
+                                content?: T;
+                                highlighted?: T;
+                                title2?: T;
+                                content2?: T;
+                                highlighted2?: T;
+                                id?: T;
+                                blockName?: T;
+                              };
+                          MediaTab?:
+                            | T
+                            | {
+                                title?: T;
+                                desc?: T;
+                                images?: T;
+                                id?: T;
+                                blockName?: T;
+                              };
+                          DropdownList?:
+                            | T
+                            | {
+                                tabs?:
+                                  | T
+                                  | {
+                                      title?: T;
+                                      icon?: T;
+                                      content?:
+                                        | T
+                                        | {
+                                            Header?:
+                                              | T
+                                              | {
+                                                  title?: T;
+                                                  font?: T;
+                                                  content?: T;
+                                                  id?: T;
+                                                  blockName?: T;
+                                                };
+                                            Attachments?:
+                                              | T
+                                              | {
+                                                  title?: T;
+                                                  attachments?:
+                                                    | T
+                                                    | {
+                                                        fileName?: T;
+                                                        file?: T;
+                                                        id?: T;
+                                                      };
+                                                  id?: T;
+                                                  blockName?: T;
+                                                };
+                                            ImagesSlider?:
+                                              | T
+                                              | {
+                                                  images?:
+                                                    | T
+                                                    | {
+                                                        image?: T;
+                                                        id?: T;
+                                                      };
+                                                  id?: T;
+                                                  blockName?: T;
+                                                };
+                                            TwoColumnsWithTtitles?:
+                                              | T
+                                              | {
+                                                  title?: T;
+                                                  content?: T;
+                                                  highlighted?: T;
+                                                  title2?: T;
+                                                  content2?: T;
+                                                  highlighted2?: T;
+                                                  id?: T;
+                                                  blockName?: T;
+                                                };
+                                            MediaTab?:
+                                              | T
+                                              | {
+                                                  title?: T;
+                                                  desc?: T;
+                                                  images?: T;
+                                                  id?: T;
+                                                  blockName?: T;
+                                                };
+                                            ImageBlock?:
+                                              | T
+                                              | {
+                                                  image?: T;
+                                                  id?: T;
+                                                  blockName?: T;
+                                                };
+                                            Highlighted?:
+                                              | T
+                                              | {
+                                                  content?: T;
+                                                  id?: T;
+                                                  blockName?: T;
+                                                };
+                                            RichText?:
+                                              | T
+                                              | {
+                                                  content?: T;
+                                                  id?: T;
+                                                  blockName?: T;
+                                                };
+                                          };
+                                      id?: T;
+                                    };
+                                id?: T;
+                                blockName?: T;
+                              };
+                          ImageBlock?:
+                            | T
+                            | {
+                                image?: T;
+                                id?: T;
+                                blockName?: T;
+                              };
+                          Highlighted?:
+                            | T
+                            | {
+                                content?: T;
+                                id?: T;
+                                blockName?: T;
+                              };
+                          RichText?:
+                            | T
+                            | {
+                                content?: T;
+                                id?: T;
+                                blockName?: T;
+                              };
+                        };
+                    id?: T;
+                  };
+              id?: T;
+              blockName?: T;
+            };
+        DropdownList?:
+          | T
+          | {
+              tabs?:
+                | T
+                | {
+                    title?: T;
+                    icon?: T;
+                    content?:
+                      | T
+                      | {
+                          Header?:
+                            | T
+                            | {
+                                title?: T;
+                                font?: T;
+                                content?: T;
+                                id?: T;
+                                blockName?: T;
+                              };
+                          Attachments?:
+                            | T
+                            | {
+                                title?: T;
+                                attachments?:
+                                  | T
+                                  | {
+                                      fileName?: T;
+                                      file?: T;
+                                      id?: T;
+                                    };
+                                id?: T;
+                                blockName?: T;
+                              };
+                          ImagesSlider?:
+                            | T
+                            | {
+                                images?:
+                                  | T
+                                  | {
+                                      image?: T;
+                                      id?: T;
+                                    };
+                                id?: T;
+                                blockName?: T;
+                              };
+                          TwoColumnsWithTtitles?:
+                            | T
+                            | {
+                                title?: T;
+                                content?: T;
+                                highlighted?: T;
+                                title2?: T;
+                                content2?: T;
+                                highlighted2?: T;
+                                id?: T;
+                                blockName?: T;
+                              };
+                          MediaTab?:
+                            | T
+                            | {
+                                title?: T;
+                                desc?: T;
+                                images?: T;
+                                id?: T;
+                                blockName?: T;
+                              };
+                          ImageBlock?:
+                            | T
+                            | {
+                                image?: T;
+                                id?: T;
+                                blockName?: T;
+                              };
+                          Highlighted?:
+                            | T
+                            | {
+                                content?: T;
+                                id?: T;
+                                blockName?: T;
+                              };
+                          RichText?:
+                            | T
+                            | {
+                                content?: T;
+                                id?: T;
+                                blockName?: T;
+                              };
+                        };
+                    id?: T;
+                  };
+              id?: T;
+              blockName?: T;
+            };
+        RichText?:
+          | T
+          | {
+              content?: T;
+              id?: T;
+              blockName?: T;
+            };
+        TwoColumnsWithTtitles?:
+          | T
+          | {
+              title?: T;
+              content?: T;
+              highlighted?: T;
+              title2?: T;
+              content2?: T;
+              highlighted2?: T;
+              id?: T;
+              blockName?: T;
+            };
+        MediaTab?:
+          | T
+          | {
+              title?: T;
+              desc?: T;
+              images?: T;
+              id?: T;
+              blockName?: T;
+            };
+        ImageBlock?:
+          | T
+          | {
+              image?: T;
+              id?: T;
+              blockName?: T;
+            };
+        Highlighted?:
+          | T
+          | {
+              content?: T;
+              id?: T;
+              blockName?: T;
+            };
+      };
+  category?: T;
+  published?: T;
   updatedAt?: T;
   createdAt?: T;
 }
