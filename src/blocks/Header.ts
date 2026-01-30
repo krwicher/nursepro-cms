@@ -20,7 +20,6 @@ export const Header: Block = {
       name: 'content',
       label: 'Kontent',
       type: 'text',
-      required: true,
     },
   ],
 }
