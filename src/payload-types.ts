@@ -188,7 +188,7 @@ export interface Procedure {
     | {
         title: string;
         font?: boolean | null;
-        content: string;
+        content?: string | null;
         id?: string | null;
         blockName?: string | null;
         blockType: 'Header';
@@ -255,7 +255,7 @@ export interface Procedure {
             | {
                 title: string;
                 font?: boolean | null;
-                content: string;
+                content?: string | null;
                 id?: string | null;
                 blockName?: string | null;
                 blockType: 'Header';
@@ -342,7 +342,7 @@ export interface Procedure {
                     | {
                         title: string;
                         font?: boolean | null;
-                        content: string;
+                        content?: string | null;
                         id?: string | null;
                         blockName?: string | null;
                         blockType: 'Header';
@@ -535,7 +535,7 @@ export interface Procedure {
             | {
                 title: string;
                 font?: boolean | null;
-                content: string;
+                content?: string | null;
                 id?: string | null;
                 blockName?: string | null;
                 blockType: 'Header';
@@ -829,7 +829,7 @@ export interface LegalPost {
     | {
         title: string;
         font?: boolean | null;
-        content: string;
+        content?: string | null;
         id?: string | null;
         blockName?: string | null;
         blockType: 'Header';
@@ -896,7 +896,7 @@ export interface LegalPost {
             | {
                 title: string;
                 font?: boolean | null;
-                content: string;
+                content?: string | null;
                 id?: string | null;
                 blockName?: string | null;
                 blockType: 'Header';
@@ -983,7 +983,7 @@ export interface LegalPost {
                     | {
                         title: string;
                         font?: boolean | null;
-                        content: string;
+                        content?: string | null;
                         id?: string | null;
                         blockName?: string | null;
                         blockType: 'Header';
@@ -1176,7 +1176,7 @@ export interface LegalPost {
             | {
                 title: string;
                 font?: boolean | null;
-                content: string;
+                content?: string | null;
                 id?: string | null;
                 blockName?: string | null;
                 blockType: 'Header';
@@ -1426,7 +1426,7 @@ export interface Theory {
     | {
         title: string;
         font?: boolean | null;
-        content: string;
+        content?: string | null;
         id?: string | null;
         blockName?: string | null;
         blockType: 'Header';
@@ -1493,7 +1493,7 @@ export interface Theory {
             | {
                 title: string;
                 font?: boolean | null;
-                content: string;
+                content?: string | null;
                 id?: string | null;
                 blockName?: string | null;
                 blockType: 'Header';
@@ -1580,7 +1580,7 @@ export interface Theory {
                     | {
                         title: string;
                         font?: boolean | null;
-                        content: string;
+                        content?: string | null;
                         id?: string | null;
                         blockName?: string | null;
                         blockType: 'Header';
@@ -1773,7 +1773,7 @@ export interface Theory {
             | {
                 title: string;
                 font?: boolean | null;
-                content: string;
+                content?: string | null;
                 id?: string | null;
                 blockName?: string | null;
                 blockType: 'Header';
@@ -2035,7 +2035,7 @@ export interface Tool {
     | {
         title: string;
         font?: boolean | null;
-        content: string;
+        content?: string | null;
         id?: string | null;
         blockName?: string | null;
         blockType: 'Header';
@@ -2102,7 +2102,7 @@ export interface Tool {
             | {
                 title: string;
                 font?: boolean | null;
-                content: string;
+                content?: string | null;
                 id?: string | null;
                 blockName?: string | null;
                 blockType: 'Header';
@@ -2189,7 +2189,7 @@ export interface Tool {
                     | {
                         title: string;
                         font?: boolean | null;
-                        content: string;
+                        content?: string | null;
                         id?: string | null;
                         blockName?: string | null;
                         blockType: 'Header';
@@ -2382,7 +2382,7 @@ export interface Tool {
             | {
                 title: string;
                 font?: boolean | null;
-                content: string;
+                content?: string | null;
                 id?: string | null;
                 blockName?: string | null;
                 blockType: 'Header';
