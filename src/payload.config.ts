@@ -52,7 +52,13 @@ export default buildConfig({
           return Response.json({ error: 'Query parameter is required' }, { status: 400 })
         }
 
-        const collections: CollectionSlug[] = ['procedures', 'legal-posts', 'quizzes', 'theories']
+        const collections: CollectionSlug[] = [
+          'procedures',
+          'legal-posts',
+          'quizzes',
+          'theories',
+          'tools',
+        ]
         const results = []
 
         for (const collection of collections) {
